@@ -16,6 +16,9 @@
 </div>
 <div class="pages">
   <div data-page="detail" class="page">
+    <div id="mcover">
+      <img id="cover" src="__PUBLIC__/asset_2/img/guide.png" />
+    </div>
     <div class="page-content">
       <div class="content-block">
         <!-- tabs控制面板 -->
@@ -39,7 +42,7 @@
                     <div class="item-inner">
                       <div class="item-title label">发起人</div>
                       <div class="item-input">
-                        <input type="text" placeholder="Your name">
+                        <input type="text" placeholder="Your name" id="d-name">
                       </div>
                     </div>
                   </div>
@@ -61,7 +64,7 @@
                     <div class="item-inner">
                       <div class="item-title label">地点</div>
                       <div class="item-input">
-                        <input type="text" placeholder="Area">
+                        <input type="text" placeholder="Area" id="d-area">
                       </div>
                     </div>
                   </div>
@@ -72,7 +75,7 @@
                     <div class="item-inner">
                       <div class="item-title label">时间</div>
                       <div class="item-input">
-                        <input type="datetime-local">
+                        <input type="datetime-local" id="d-time">
                       </div>
                     </div>
                   </div>
@@ -83,7 +86,7 @@
                     <div class="item-inner">
                       <div class="item-title label">备注</div>
                       <div class="item-input">
-                        <textarea></textarea>
+                        <textarea id="d-comment"></textarea>
                       </div>
                     </div>
                   </div>
@@ -93,7 +96,7 @@
           </div>
           <p class="buttons-row button-round">
             <a href="#" class="button button-round">Button</a>
-            <a href="#" class="button button-round">Button</a>
+            <a href="#" class="button button-round" id="btn-share">点击分享</a>
           </p>
         </div>
         <!-- Tab 2 -->

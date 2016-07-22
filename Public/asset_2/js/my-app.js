@@ -72,16 +72,20 @@ $$(document).on('click', '.item-link', function(e) {
   a_id = $$(this).data('id');
 });
 
-
+// ORGANIZE.js
 $$(document).on('pageInit', '.page[data-page="organize"]', function(e) {
   // Following code will be executed for page with data-page attribute equal to "organize"
   var id = '<%=Session["user_id"] %>';
   console.log(id);
 })
+
+// INFORMATION.js
 $$(document).on('pageInit', '.page[data-page="information"]', function(e) {
   // Following code will be executed for page with data-page attribute equal to "information"
 
 })
+
+// DETAIL.js
 $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
   // Following code will be executed for page with data-page attribute equal to "detail"
   if (a_id == "") {
@@ -106,16 +110,30 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
       },
       success: function(data) {
         console.log(data);
-        // $("#d-name").val(data['activity']['name']);
-        // $("#d-area").val(data['activity']['area']);
-        // $("#d-time").val(data['activity']['time']);
-        // $("#d-comment").val(data['activity']['info']);
+        $$("#d-name").val(data['activity']['name']);
+        $$("#d-area").val(data['activity']['area']);
+        $$("#d-time").val(data['activity']['time']);
+        $$("#d-comment").val(data['activity']['info']);
         console.log('suc');
 
       },
     });
 
   }
+
+  // 点击出现分享提示幕布
+  $$("#btn-share").click(function(e) {
+    /* Act on the event */
+    $$("#mcover").css('display', 'block');
+    $$(".page-content").css('z-index', '-8');
+    $$(".navbar").css('z-index', '-6');
+    $$("#content-hide").css('z-index', '-1');
+  });
+  // 点击幕布消失
+  $$("#mcover").click(function(e) {
+    /* Act on the event */
+    $$(this).css('display', 'none');
+  });
 })
 
 // search bar
