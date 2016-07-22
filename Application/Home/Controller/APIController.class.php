@@ -10,9 +10,10 @@ class APIController extends Controller {
 		$User=M('User');
 		foreach ($list as $key => $value) {
 			$list[$key]['username']=$User->where('id='.$value['user_id'])->getField('username');
+            $list[$key]['img']=$User->where('id='.$value['user_id'])->getField('face_url');
 			$list[$key]['time']=date('m-d H:i',strtotime($value['time']));
 		}
-		return $list;
+		$this->ajaxReturn($list);
 	}
 
 	//签到系统

@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="/joyball_f7/Public/asset_2/css/framework7.ios.colors.min.css">
   <!-- Path to your custom app styles-->
   <link rel="stylesheet" href="/joyball_f7/Public/asset_2/css/my-app.css">
+
 </head>
 
 <body>
@@ -36,74 +37,23 @@
         <!-- Page, "data-page" contains page name -->
         <div data-page="index" class="page">
           <!-- Scrollable page content -->
-          <div class="page">
-            <!-- Search bar -->
-            <form class="searchbar">
-              <div class="searchbar-input">
-                <input type="search" placeholder="Search">
-                <a href="#" class="searchbar-clear"></a>
-              </div>
-              <a href="#" class="searchbar-cancel">Cancel</a>
-            </form>
-            <!-- Search bar overlay-->
-            <div class="searchbar-overlay"></div>
-            <!-- Page content -->
-            <div class="page-content">
-              <div class="content-block searchbar-not-found">
-                Nothing found
-              </div>
-              <div class="list-block list-block-search searchbar-found">
-                <ul>
-                  ... list view items ...
-                </ul>
-              </div>
+          <!-- Search bar -->
+          <form class="searchbar">
+            <div class="searchbar-input">
+              <input type="search" placeholder="Search">
+              <a href="#" class="searchbar-clear"></a>
             </div>
-          </div>
+            <a href="#" class="searchbar-cancel">Cancel</a>
+          </form>
+          <!-- Search bar overlay-->
+          <div class="searchbar-overlay"></div>
+          <!-- Page content -->
           <div class="page-content">
-            <div class="content-block-title"></div><!--空div留白-->
+            <div class="content-block searchbar-not-found">
+              好像还没有这个活动哦~
+            </div>
             <div class="list-block media-list">
-              <ul>
-                <li>
-                  <a href="#" class="item-link item-content">
-                    <div class="item-media"><img src="..." width="80"></div>
-                    <div class="item-inner">
-                      <div class="item-title-row">
-                        <div class="item-title">Yellow Submarine</div>
-                        <div class="item-after">$15</div>
-                      </div>
-                      <div class="item-subtitle">Beatles</div>
-                      <div class="item-text">Lorem ipsum dolor sit amet...</div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="item-link item-content">
-                    <div class="item-media"><img src="..." width="80"></div>
-                    <div class="item-inner">
-                      <div class="item-title-row">
-                        <div class="item-title">Yellow Submarine</div>
-                        <div class="item-after">$15</div>
-                      </div>
-                      <div class="item-subtitle">Beatles</div>
-                      <div class="item-text">Lorem ipsum dolor sit amet...</div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="item-link item-content">
-                    <div class="item-media"><img src="..." width="80"></div>
-                    <div class="item-inner">
-                      <div class="item-title-row">
-                        <div class="item-title">Yellow Submarine</div>
-                        <div class="item-after">$15</div>
-                      </div>
-                      <div class="item-subtitle">Beatles</div>
-                      <div class="item-text">Lorem ipsum dolor sit amet...</div>
-                    </div>
-                  </a>
-                </li>
-
-              </ul>
+              
             </div>
           </div>
         </div>
@@ -118,10 +68,12 @@
       </div>
     </div>
   </div>
+  <script type="text/javascript" src="/joyball_f7/Public/asset_2/js/run.js"></script>
   <!-- Path to Framework7 Library JS-->
   <script type="text/javascript" src="/joyball_f7/Public/asset_2/js/framework7.min.js"></script>
   <!-- Path to your app js-->
   <script type="text/javascript" src="/joyball_f7/Public/asset_2/js/my-app.js"></script>
+
 </body>
 
 </html>

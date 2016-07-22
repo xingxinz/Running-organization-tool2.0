@@ -54,9 +54,9 @@ class IndexController extends Controller {
             session('username','测试用户名');
          }
 
-        $API=A('API');
-        $list=$API->getActivity();
-        $this->assign('list',$list);
+        // $API=A('API');
+        // $list=$API->getActivity();
+        // $this->assign('list',$list);
 
         //获取我加入的activity
         $id=session('user_id');
