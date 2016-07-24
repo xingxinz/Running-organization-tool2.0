@@ -1,0 +1,40 @@
+<!-- Top Navbar-->
+<div class="navbar">
+  <div class="navbar-inner">
+    <!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
+    <div class="center sliding">附近的约跑</div>
+  </div>
+</div>
+<!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
+<div class="pages navbar-through toolbar-through">
+  <!-- Page, "data-page" contains page name -->
+  <div data-page="index" class="page toolbar-fixed">
+    <!-- Scrollable page content -->
+    <!-- Search bar -->
+    <form class="searchbar">
+      <div class="searchbar-input">
+        <input type="search" placeholder="搜索活动名">
+        <a href="#" class="searchbar-clear"></a>
+      </div>
+      <a href="#" class="searchbar-cancel">Cancel</a>
+    </form>
+    <!-- Search bar overlay-->
+    <div class="searchbar-overlay"></div>
+    <!-- Page content -->
+    <div class="page-content">
+      <div class="content-block searchbar-not-found">
+        好像还没有这个活动哦~
+      </div>
+      <div class="list-block media-list">
+      </div>
+    </div>
+    <!-- Bottom Toolbar-->
+    <div class="toolbar">
+      <div class="toolbar-inner">
+        <!-- Toolbar links -->
+        <a href="__APP__/Home/Index/organize.html" class="link">发起约跑</a>
+        <a href="__APP__/Home/Index/information.html" class="link">个人信息</a>
+      </div>
+    </div>
+  </div>
+</div>
