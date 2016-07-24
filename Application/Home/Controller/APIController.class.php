@@ -300,6 +300,7 @@ class APIController extends Controller {
         }
         var_dump($access_token);
         $url=I('post.');
+        var_dump($url);
         $ticket=S('ticket');
         if(!$ticket){
             $ticket=$Wechat->getJsTicket($ticket);
