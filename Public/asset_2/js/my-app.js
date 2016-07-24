@@ -1,5 +1,6 @@
 // Initialize app
-var myApp = new Framework7();
+var myApp = new Framework7({
+});
 
 // If we need to use custom DOM library, let's save it to $$ variable:
 var $$ = Framework7.$;
@@ -7,8 +8,7 @@ var $$ = Framework7.$;
 // Add view
 var mainView = myApp.addView('.view-main', {
   // Because we want to use dynamic navbar, we need to enable it for this view:
-  dynamicNavbar: true,
-  url:'http://' + domain + '/index.php/Home/Index/display.html'
+  dynamicNavbar: true
 });
 
 var a_id = GetQueryString("id"); //活动ID
@@ -36,8 +36,9 @@ $$.ajax({ //获取用户信息
   },
 });
 //index init
-  myApp.alert(123);
-  mainView.router.loadPage('http://' + domain + '/index.php/Home/Index/display.html')
+  //myApp.alert(123);
+  mainView.router.loadPage('http://' + domain + '/index.php/Home/Index/display.html');
+  //myApp.alert(456);
 
 
 function getActivityId(e) {
@@ -92,7 +93,7 @@ $$(document).on('pageInit', '.page[data-page="index"]', function(e) {
           data.forEach(function(res) { //遍历数组
           var b = "";
           b += "<li>";
-          b += "<a  class='item-link item-content' data-id=" + res['id'] + ">";
+          b += "<a  class='item-link item-content' data-id=" + res['id'] + " onclick=getActivityId(this)>";
           b += "<div class=item-media><img src=" + res['img'] + " width=80></div>";
           b += "<div class=item-inner>";
           b += "<div class=item-title-row>";
@@ -255,7 +256,7 @@ $$(document).on('pageInit', '.page[data-page="information"]', function(e) {
             data['member'].forEach(function(res) { //遍历数组
             var b = "";
             b += "<li>";
-            b += "<a  class='item-link item-content' data-id=" + res['id'] + ">";
+            b += "<a  class='item-link item-content' data-id=" + res['id'] + " onclick=getActivityId(this)>";
             b += "<div class=item-media><img src=" + res['img'] + " width=80></div>";
             b += "<div class=item-inner>";
             b += "<div class=item-title-row>";
@@ -436,6 +437,36 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
     $$(".navbar").css('z-index', '1');
     $$("#content-hide").css('z-index', '1');
   });
+
+  // --------------------微信API------------------------------ //
+  $$.ajax({
+        cache: false,
+        type: "POST",
+        url: toUrl + "getWxSign",
+        dataType: "json",
+        data: id,
+        timeout: 30000,
+
+        error: function(e){
+          myApp.alert("微信接口错误");
+        },
+        success: function(data){
+          console.log(data);
+        }
+  });
+  // wx.config({
+  //   debug: true,
+  //   appId: '<?php echo $signPackage["appId"];?>',
+  //   timestamp: <?php echo $signPackage["timestamp"];?>,
+  //   nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+  //   signature: '<?php echo $signPackage["signature"];?>',
+  //   jsApiList: [
+  //     // 所有要调用的 API 都要加到这个列表中
+  //   ]
+  // });
+  // wx.ready(function () {
+  //   // 在这里调用 API
+  // });
 })
 
 

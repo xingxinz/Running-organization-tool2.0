@@ -102,7 +102,7 @@ class IndexController extends Controller {
         //输出openid
         $openid = $array['openid'];
         $access_token=$array['access_token'];
-
+        
         // echo $openid;
         $options = array(
             'token'=>'weixin', //填写你设定的key

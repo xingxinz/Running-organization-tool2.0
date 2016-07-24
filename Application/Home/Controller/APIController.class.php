@@ -3,6 +3,12 @@ namespace Home\Controller;
 use Think\Controller;
 
 class APIController extends Controller {
+    private $options = array(
+            'token'=>'weixin', //填写你设定的key
+            'encodingaeskey'=>'6kzmD2pVGSV1HK9vXKpyFKFUviwI02UquFqltWaDqqd', //填写加密用的EncodingAESKey
+            'appid'=>'wx81f64260178ef961', //填写高级调用功能的app id
+            'appsecret'=>'630aad385d1eaa2eef012777ce8f9670' //填写高级调用功能的密钥
+        );
 	public function getActivity(){
 		$table=M('Activity');
 		$list=$table->order('time desc')->select();
@@ -283,5 +289,11 @@ class APIController extends Controller {
             }
         }
         $this->ajaxReturn($list);
+    }
+
+    public function getWxSign(){
+        $Wechat= new \Org\Com\TPWechat($this->$options);
+        $res=$Wechat->getJsSign();
+        $this->ajaxReturn($res);
     }
 }
