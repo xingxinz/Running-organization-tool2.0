@@ -52,10 +52,9 @@ function getActivityId(e) {
 // DISPLAY.js
 $$(document).on('pageInit', '.page[data-page="index"]', function(e) {
   // search bar
-  console.log(123);
   var mySearchbar = myApp.searchbar('.searchbar', {
     searchList: '.list-block',
-    searchIn: '.item-title, .item-subtitle'
+    searchIn: '.item-title, .item-subtitle, .item-after'
   });
 
   if (a_id != null) {
@@ -122,6 +121,8 @@ $$(document).on('pageInit', '.page[data-page="organize"]', function(e) {
   $$("#phone").val('');
   $$("#username").val(u_info[0]['username']);
   $$("#phone").val(u_info[0]['phone']);
+  var today = new Date();
+
   var pickerDescribe = myApp.picker({
     input: '#picker-date',
     rotateEffect: true,
@@ -135,9 +136,7 @@ $$(document).on('pageInit', '.page[data-page="organize"]', function(e) {
     cols: [
       // Months
       {
-        values: ('0 1 2 3 4 5 6 7 8 9 10 11').split(' '),
-        displayValues: ('January February March April May June July August September October November December').split(' '),
-        textAlign: 'left'
+        values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
       },
       // Days
       {
@@ -458,7 +457,7 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
         success: function(data){
           console.log(data);
           wx.config({
-            debug: true,
+            debug: false,
             appId: data['appId'],
             timestamp: data['timestamp'],
             nonceStr: data['nonceStr'],
