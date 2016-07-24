@@ -18,7 +18,7 @@ if (domain == 'localhost') { //本地测试出错请检查此处路径
 }
 var toUrl = 'http://' + domain + "/index.php/Home/API/"; //接口地址
 
-$$.ajax({     //获取用户信息
+$$.ajax({ //获取用户信息
   cache: false,
   type: "POST",
   url: toUrl + "getuserinfo",
@@ -26,11 +26,11 @@ $$.ajax({     //获取用户信息
   data: 1,
   timeout: 30000,
 
-  error: function(){
+  error: function() {
     myApp.alert("获取消息出错，请联系管理员");
   },
-  success: function(data){
-    u_info=data.concat();
+  success: function(data) {
+    u_info = data.concat();
     console.log(u_info);
   },
 });
@@ -129,7 +129,7 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
       },
       success: function(data) {
         console.log(data);
-        $$("#d-username").val('');    //基础信息
+        $$("#d-username").val(''); //基础信息
         $$("#d-name").val('');
         $$("#d-area").val('');
         $$("#d-time").val('');
@@ -159,8 +159,8 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
 
         var admin=$$("#admin").find("ul").find("li").find("div");     //添加发起人
         admin.children().remove();
-        var b="";
-        b += "<div class=item-media><img src="+data['admin']['face_url']+" width=44></div>";
+        var b = "";
+        b += "<div class=item-media><img src=" + data['admin']['face_url'] + " width=44></div>";
         b += "<div class=item-inner>";
         b += "<div class=item-title-row>";
         b += "<div class=item-title>发起人：" + data['admin']['username'] + "</div>";
@@ -171,8 +171,8 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
 
         var member=$$("#member").find("ul");      //添加成员
         member.children().remove();
-        if(data['member'].length==0){
-          var b="";
+        if (data['member'].length == 0) {
+          var b = "";
           b += "<li>";
           b += "<div class=item-inner>";
           b += "<div class=item-title-row>";
@@ -181,14 +181,13 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
           b += "</div>";
           b += "</li>";
           member.append(b);
-        }
-        else{
-          $$.each(data['member'],function(key,value){
-            var b="";
+        } else {
+          $$.each(data['member'], function(key, value) {
+            var b = "";
             b += "<li class=swipeout>";
             b += "<div class=swipeout-content>";
             b += "<div class=item-content>";
-            b += "<div class=item-media><img src="+value['face_url']+" width=44></div>";
+            b += "<div class=item-media><img src=" + value['face_url'] + " width=44></div>";
             b += "<div class=item-inner>";
             b += "<div class=item-title-row>";
             b += "<div class=item-title>发起人：" + value['username'] + "</div>";
@@ -203,8 +202,8 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
             member.append(b);
           });
         }
-        
-        
+
+
         console.log('suc');
 
       },
@@ -219,16 +218,20 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
     $$(".page-content").css('z-index', '-8');
     $$(".navbar").css('z-index', '-6');
     $$("#content-hide").css('z-index', '-1');
+
   });
   // 点击幕布消失
   $$("#mcover").click(function(e) {
     /* Act on the event */
     $$(this).css('display', 'none');
+    $$(".page-content").css('z-index', '1');
+    $$(".navbar").css('z-index', '1');
+    $$("#content-hide").css('z-index', '1');
   });
 })
 
 // search bar
 var mySearchbar = myApp.searchbar('.searchbar', {
   searchList: '.list-block',
-  searchIn: '.item-title'
+  searchIn: '.item-title, .item-subtitle'
 });
