@@ -260,4 +260,28 @@ class APIController extends Controller {
 
         redirect(__APP__."/Home/Index/index?id=$insertId");
     }
+
+    public function getMyActivity(){
+        $where['user_id']=session('user_id');
+        $Activity=M('Activity');
+        $Join=M('Join');
+
+        $list=array('admin'=>array(),'member'=>array());
+        $list['admin']=$Activity->where($where)->select();
+        $joined=$Join->where($where)->select();
+
+        foreach ($joined as $key => $value) {
+            $list['member'][$key]=$Activity->find($value['activity_id']);
+        }
+
+        $User=M('User');        //获取创建者信息
+        foreach ($list as $key => $value){
+            foreach($value as $k => $v){
+                    $list[$key][$k]['username']=$User->where('id='.$v['user_id'])->getField('username');
+                    $list[$key][$k]['img']=$User->where('id='.$v['user_id'])->getField('face_url');
+                    $list[$key][$k]['time']=date('m-d H:i',strtotime($v['time']));
+            }
+        }
+        $this->ajaxReturn($list);
+    }
 }

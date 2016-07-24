@@ -60,33 +60,45 @@ $$.ajax({ //获取数据
     console.log(data);
     list.append("<ul>");
     list = list.children();
-    data.forEach(function(res) { //遍历数组
-      var b = "";
-      b += "<li>";
-      b += "<a  class='item-link item-content' data-id=" + res['id'] + ">";
-      b += "<div class=item-media><img src=" + res['img'] + " width=80></div>";
-      b += "<div class=item-inner>";
-      b += "<div class=item-title-row>";
-      b += "<div class=item-title>" + res['name'] + "</div>";
-      b += "<div class=item-after>" + res['username'] + "</div>";
-      b += "</div>";
-      b += "<div class=item-subtitle>" + res['area'] + "</div>";
-      b += "<div class=item-subtitle>活动人数" + res['now_total'] + "/" + res['total'] + "</div>";
-      b += "<div class=item-subtitle>" + res['time'] + "</div>";
-      b += "<div class=item-text>" + res['info'] + "</div>";
-      b += "</div></a>";
-      list.append(b);
-      list.append("</li>");
-    });
-  },
+    if(data.length==0){
+        var b = "";
+        b += "<li>";
+        b += "<div class=item-inner>";
+        b += "<div class=item-title-row>";
+        b += "<div class=item-title>当前无成员加入</div>";
+        b += "</div>";
+        b += "</div>";
+        b += "</li>";
+        list.append(b);
+    }else{
+        data.forEach(function(res) { //遍历数组
+        var b = "";
+        b += "<li>";
+        b += "<a  class='item-link item-content' data-id=" + res['id'] + ">";
+        b += "<div class=item-media><img src=" + res['img'] + " width=80></div>";
+        b += "<div class=item-inner>";
+        b += "<div class=item-title-row>";
+        b += "<div class=item-title>" + res['name'] + "</div>";
+        b += "<div class=item-after>" + res['username'] + "</div>";
+        b += "</div>";
+        b += "<div class=item-subtitle>" + res['area'] + "</div>";
+        b += "<div class=item-subtitle>活动人数" + res['now_total'] + "/" + res['total'] + "</div>";
+        b += "<div class=item-subtitle>" + res['time'] + "</div>";
+        b += "<div class=item-text>" + res['info'] + "</div>";
+        b += "</div></a>";
+        list.append(b);
+        list.append("</li>");
+      });
+    }
+  }
 });
 
-
-
-$$(document).on('click', '.item-link', function(e) {
-  a_id = $$(this).data('id');
-  mainView.router.loadPage('http://' + domain + '/index.php/Home/Index/detail.html');
-});
+function getActivityId(e) {
+  console.log($$(e));
+  console.log(this);
+  a_id =$$(e).data('id');
+  mainView.router.load('http://' + domain + '/index.php/Home/Index/detail.html');
+}
 
 // ORGANIZE.js
 $$(document).on('pageInit', '.page[data-page="organize"]', function(e) {
@@ -100,8 +112,100 @@ $$(document).on('pageInit', '.page[data-page="organize"]', function(e) {
 // INFORMATION.js
 $$(document).on('pageInit', '.page[data-page="information"]', function(e) {
   // Following code will be executed for page with data-page attribute equal to "information"
+  $$("#i-name").val('');
+  $$("#i-phone").val('');
+  $$("#i-name").val(u_info[0]['username']);
+  $$("#i-phone").val(u_info[0]['phone']);
 
-})
+  var tab2 = $$('#tab2').find('div');
+  var tab3 = $$('#tab3').find('div');
+  tab2.children().remove(); //清除页面
+  tab3.children().remove(); //清除页面
+  $$.ajax({
+      cache: false,
+      type: "POST",
+      url: toUrl + "getMyActivity",
+      dataType: "json",
+      data: 1,
+      timeout: 30000,
+
+      error: function() {
+        myApp.alert("获取消息出错，请联系管理员");
+      },
+      success: function(data){
+        console.log(data);
+        // --------------------自己创建----------------------- //
+        tab2.append("<ul>");
+        tab2 = tab2.children();
+        if(data['admin'].length==0){     
+            var b = "";
+            b += "<li>";
+            b += "<div class=item-inner>";
+            b += "<div class=item-title-row>";
+            b += "<div class=item-title>当前无创建活动</div>";
+            b += "</div>";
+            b += "</div>";
+            b += "</li>";
+            tab2.append(b);
+        }else{
+            data['admin'].forEach(function(res) { //遍历数组
+            var b = "";
+            b += "<li>";
+            b += "<a  class='item-link item-content' data-id=" + res['id'] + " onclick=getActivityId(this)>";
+            b += "<div class=item-media><img src=" + res['img'] + " width=80></div>";
+            b += "<div class=item-inner>";
+            b += "<div class=item-title-row>";
+            b += "<div class=item-title>" + res['name'] + "</div>";
+            b += "<div class=item-after>" + res['username'] + "</div>";
+            b += "</div>";
+            b += "<div class=item-subtitle>" + res['area'] + "</div>";
+            b += "<div class=item-subtitle>活动人数" + res['now_total'] + "/" + res['total'] + "</div>";
+            b += "<div class=item-subtitle>" + res['time'] + "</div>";
+            b += "<div class=item-text>" + res['info'] + "</div>";
+            b += "</div></a>";
+            tab2.append(b);
+            tab2.append("</li>");
+          });
+        }
+        // --------------------自己创建end----------------------- //
+        
+        // --------------------自己加入----------------------- //
+        tab3.append("<ul>");
+        tab3 = tab3.children();
+        if(data['member'].length==0){     
+            var b = "";
+            b += "<li>";
+            b += "<div class=item-inner>";
+            b += "<div class=item-title-row>";
+            b += "<div class=item-title>当前无加入活动</div>";
+            b += "</div>";
+            b += "</div>";
+            b += "</li>";
+            tab3.append(b);
+        }else{
+            data['member'].forEach(function(res) { //遍历数组
+            var b = "";
+            b += "<li>";
+            b += "<a  class='item-link item-content' data-id=" + res['id'] + ">";
+            b += "<div class=item-media><img src=" + res['img'] + " width=80></div>";
+            b += "<div class=item-inner>";
+            b += "<div class=item-title-row>";
+            b += "<div class=item-title>" + res['name'] + "</div>";
+            b += "<div class=item-after>" + res['username'] + "</div>";
+            b += "</div>";
+            b += "<div class=item-subtitle>" + res['area'] + "</div>";
+            b += "<div class=item-subtitle>活动人数" + res['now_total'] + "/" + res['total'] + "</div>";
+            b += "<div class=item-subtitle>" + res['time'] + "</div>";
+            b += "<div class=item-text>" + res['info'] + "</div>";
+            b += "</div></a>";
+            tab3.append(b);
+            tab3.append("</li>");
+          });
+        }
+        // --------------------自己加入end----------------------- //
+      }
+  });
+});
 
 // DETAIL.js
 $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
@@ -211,6 +315,42 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
 
   }
 
+  //点击加入
+  $$("#btn_join").click(function(e){
+    var id=$$(this).data('id');
+    console.log(id);
+    if(id==undefined){
+      myApp.alert('您已在该活动中！');
+    }else{
+      $$.ajax({
+        cache: false,
+        type: "POST",
+        url: toUrl + "join",
+        dataType: "json",
+        data: id,
+        timeout: 30000,
+
+        error: function(e){
+          myApp.alert("系统错误");
+        },
+        success: function(data){
+          switch(data['type'])
+          {
+          case 1:
+            myApp.alert("加入成功");
+            mainView.router.refreshPage();
+            break;
+          case 2:
+            button.text("Sorry,已经满员!");
+            break;
+          default:
+            myApp.alert("Error");
+            break;
+          }
+        }
+      });
+    }
+  });
   // 点击出现分享提示幕布
   $$("#btn-share").click(function(e) {
     /* Act on the event */
