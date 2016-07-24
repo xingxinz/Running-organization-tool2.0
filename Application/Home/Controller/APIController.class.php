@@ -295,14 +295,14 @@ class APIController extends Controller {
         $Wechat= new \Org\Com\TPWechat($this->options);
         $access_token=S('access_token');
         if(!$access_token){
-            $access_token=$Wechat->checkAuth();
+            $access_token=$Wechat->checkAuth($access_token);
             S('access_token',$access_token,7200);
         }
         var_dump($access_token);
         $url=I('post.');
         $ticket=S('ticket');
         if(!$ticket){
-            $ticket=$Wechat->getJsTicket();
+            $ticket=$Wechat->getJsTicket($ticket);
             S('ticket',$ticket,7200);
         }
         var_dump($ticket);
