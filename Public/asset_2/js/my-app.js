@@ -441,12 +441,13 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
   });
 
   // --------------------微信API------------------------------ //
+  var objectModel['url']=window.location.href;
   $$.ajax({
         cache: false,
         type: "POST",
         url: toUrl + "getWxSign",
         dataType: "json",
-        data: window.location.href,
+        data: objectModel,
         timeout: 30000,
 
         error: function(e){
