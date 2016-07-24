@@ -225,4 +225,9 @@ class APIController extends Controller {
             $this->ajaxReturn($result);
         }
     }
+
+    public function getuserinfo(){
+        $id=session('user_id');
+        
+    }
 }

@@ -10,12 +10,11 @@
   <!-- Your app title -->
   <title>持健约跑</title>
   <!-- Path to Framework7 Library CSS, iOS Theme -->
-  <link rel="stylesheet" href="/joyball_f7/Public/asset_2/css/framework7.ios.min.css">
+  <link rel="stylesheet" href="/Running-organization-tool2.0/Public/asset_2/css/framework7.ios.min.css">
   <!-- Path to Framework7 color related styles, iOS Theme -->
-  <link rel="stylesheet" href="/joyball_f7/Public/asset_2/css/framework7.ios.colors.min.css">
+  <link rel="stylesheet" href="/Running-organization-tool2.0/Public/asset_2/css/framework7.ios.colors.min.css">
   <!-- Path to your custom app styles-->
-  <link rel="stylesheet" href="/joyball_f7/Public/asset_2/css/my-app.css">
-
+  <link rel="stylesheet" href="/Running-organization-tool2.0/Public/asset_2/css/my-app.css">
 </head>
 
 <body>
@@ -35,12 +34,12 @@
       <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
       <div class="pages navbar-through toolbar-through">
         <!-- Page, "data-page" contains page name -->
-        <div data-page="index" class="page">
+        <div data-page="index" class="page toolbar-fixed">
           <!-- Scrollable page content -->
           <!-- Search bar -->
           <form class="searchbar">
             <div class="searchbar-input">
-              <input type="search" placeholder="Search">
+              <input type="search" placeholder="搜索活动名">
               <a href="#" class="searchbar-clear"></a>
             </div>
             <a href="#" class="searchbar-cancel">Cancel</a>
@@ -53,27 +52,25 @@
               好像还没有这个活动哦~
             </div>
             <div class="list-block media-list">
-              
+            </div>
+          </div>
+          <!-- Bottom Toolbar-->
+          <div class="toolbar">
+            <div class="toolbar-inner">
+              <!-- Toolbar links -->
+              <a href="/Running-organization-tool2.0/index.php/Home/Index/organize.html" class="link">发起约跑</a>
+              <a href="/Running-organization-tool2.0/index.php/Home/Index/information.html" class="link">个人信息</a>
             </div>
           </div>
         </div>
       </div>
-      <!-- Bottom Toolbar-->
-      <div class="toolbar">
-        <div class="toolbar-inner">
-          <!-- Toolbar links -->
-          <a href="/joyball_f7/index.php/Home/Index/organize.html" class="link">发起约跑</a>
-          <a href="/joyball_f7/index.php/Home/Index/information.html" class="link">个人信息</a>
-        </div>
-      </div>
     </div>
   </div>
-  <script type="text/javascript" src="/joyball_f7/Public/asset_2/js/run.js"></script>
+  <script type="text/javascript" src="/Running-organization-tool2.0/Public/asset_2/js/run.js"></script>
   <!-- Path to Framework7 Library JS-->
-  <script type="text/javascript" src="/joyball_f7/Public/asset_2/js/framework7.min.js"></script>
+  <script type="text/javascript" src="/Running-organization-tool2.0/Public/asset_2/js/framework7.min.js"></script>
   <!-- Path to your app js-->
-  <script type="text/javascript" src="/joyball_f7/Public/asset_2/js/my-app.js"></script>
-
+  <script type="text/javascript" src="/Running-organization-tool2.0/Public/asset_2/js/my-app.js"></script>
 </body>
 
 </html>
