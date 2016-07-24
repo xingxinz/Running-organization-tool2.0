@@ -1,4 +1,5 @@
 /* WeChat share cover hint */
+
 #mcover {
   position: fixed;
   top: 0;
@@ -9,7 +10,8 @@
   display: none;
   z - index: 998;
 }
-#cover{
+
+#cover {
   right: -30px;
   position: fixed;
   right: 18 px;

@@ -107,6 +107,63 @@ $$(document).on('pageInit', '.page[data-page="organize"]', function(e) {
   $$("#phone").val('');
   $$("#username").val(u_info[0]['username']);
   $$("#phone").val(u_info[0]['phone']);
+  var pickerDescribe = myApp.picker({
+    input: '#picker-date',
+    rotateEffect: true,
+
+    value: [today.getMonth(), today.getDate(), today.getFullYear(), today.getHours(), (today.getMinutes() < 10 ? '0' + today.getMinutes() : today.getMinutes())],
+
+    formatValue: function(p, values, displayValues) {
+      return displayValues[0] + ' ' + values[1] + ', ' + values[2] + ' ' + values[3] + ':' + values[4];
+    },
+
+    cols: [
+      // Months
+      {
+        values: ('0 1 2 3 4 5 6 7 8 9 10 11').split(' '),
+        displayValues: ('January February March April May June July August September October November December').split(' '),
+        textAlign: 'left'
+      },
+      // Days
+      {
+        values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
+      },
+      // Years
+      {
+        values: (function() {
+          var arr = [];
+          for (var i = 2016; i <= 2030; i++) { arr.push(i); }
+          return arr;
+        })(),
+      },
+      // Space divider
+      {
+        divider: true,
+        content: '  '
+      },
+      // Hours
+      {
+        values: (function() {
+          var arr = [];
+          for (var i = 0; i <= 23; i++) { arr.push(i); }
+          return arr;
+        })(),
+      },
+      // Divider
+      {
+        divider: true,
+        content: ':'
+      },
+      // Minutes
+      {
+        values: (function() {
+          var arr = [];
+          for (var i = 0; i <= 59; i++) { arr.push(i < 10 ? '0' + i : i); }
+          return arr;
+        })(),
+      }
+    ]
+  });
 })
 
 // INFORMATION.js
@@ -244,24 +301,23 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
         $$("#d-time").val(data['activity']['time']);
         $$("#d-comment").val(data['activity']['info']);
 
-        var button=$$("#btn_join");   //修改按键，0错误，1管理员，2成员，3未加入
+        var button = $$("#btn_join"); //修改按键，0错误，1管理员，2成员，3未加入
         button.text('');
         button.removeData('id');
-        switch(data['type'])
-        {
-        case 1:
-        case 2:
-          button.text("已加入");
-          break;
-        case 3:
-          button.text("点击加入");
-          button.data('id',u_info[0]['id']);
-          break;
-        default:
-          myApp.alert("Error");
+        switch (data['type']) {
+          case 1:
+          case 2:
+            button.text("已加入");
+            break;
+          case 3:
+            button.text("点击加入");
+            button.data('id', u_info[0]['id']);
+            break;
+          default:
+            myApp.alert("Error");
         }
 
-        var admin=$$("#admin").find("ul").find("li").find("div");     //添加发起人
+        var admin = $$("#admin").find("ul").find("li").find("div"); //添加发起人
         admin.children().remove();
         var b = "";
         b += "<div class=item-media><img src=" + data['admin']['face_url'] + " width=44></div>";
@@ -273,7 +329,7 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
         b += "</div>";
         admin.append(b);
 
-        var member=$$("#member").find("ul");      //添加成员
+        var member = $$("#member").find("ul"); //添加成员
         member.children().remove();
         if (data['member'].length == 0) {
           var b = "";
