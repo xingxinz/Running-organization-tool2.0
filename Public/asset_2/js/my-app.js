@@ -441,7 +441,9 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
   });
 
   // --------------------微信API------------------------------ //
-  var objectModel['url']=window.location.href;
+  var objectModel={};
+  objectModel['url']=window.location.href;
+  console.log(objectModel);
   $$.ajax({
         cache: false,
         type: "POST",
