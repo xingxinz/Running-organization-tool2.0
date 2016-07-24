@@ -42,7 +42,7 @@
                     <div class="item-inner">
                       <div class="item-title label">发起人</div>
                       <div class="item-input">
-                        <input type="text" placeholder="Your name" id="d-name">
+                        <input type="text" placeholder="Your name" disabled="" id="d-username">
                       </div>
                     </div>
                   </div>
@@ -53,7 +53,7 @@
                     <div class="item-inner">
                       <div class="item-title label">活动名</div>
                       <div class="item-input">
-                        <input type="text" placeholder="Name">
+                        <input type="text" placeholder="Name" disabled="" id="d-name">
                       </div>
                     </div>
                   </div>
@@ -64,7 +64,7 @@
                     <div class="item-inner">
                       <div class="item-title label">地点</div>
                       <div class="item-input">
-                        <input type="text" placeholder="Area" id="d-area">
+                        <input type="text" placeholder="Area" id="d-area" disabled="">
                       </div>
                     </div>
                   </div>
@@ -75,7 +75,7 @@
                     <div class="item-inner">
                       <div class="item-title label">时间</div>
                       <div class="item-input">
-                        <input type="datetime-local" id="d-time">
+                        <input type="datetime-local" id="d-time" disabled="">
                       </div>
                     </div>
                   </div>
@@ -86,7 +86,7 @@
                     <div class="item-inner">
                       <div class="item-title label">备注</div>
                       <div class="item-input">
-                        <textarea id="d-comment"></textarea>
+                        <textarea id="d-comment" disabled=""></textarea>
                       </div>
                     </div>
                   </div>
@@ -101,10 +101,10 @@
         </div>
         <!-- Tab 2 -->
         <div id="tab2" class="tab">
-          <div class="list-block media-list inset">
+          <div class="list-block media-list inset" id="admin">
             <ul>
               <li>
-                <a href="#" class=" item-content">
+                <div class="item-content">
                   <div class="item-media"><img src="..." width="44"></div>
                   <div class="item-inner">
                     <div class="item-title-row">
@@ -112,11 +112,11 @@
                     </div>
                     <div class="item-subtitle">电话？</div>
                   </div>
-                </a>
+                </div>
               </li>
             </ul>
           </div>
-          <div class="list-block media-list inset">
+          <div class="list-block media-list inset" id="member">
             <ul>
               <li class="swipeout">
                 <div class="swipeout-content">

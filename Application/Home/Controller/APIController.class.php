@@ -228,6 +228,26 @@ class APIController extends Controller {
 
     public function getuserinfo(){
         $id=session('user_id');
-        
+        $User=M('User');
+        $list=$User->select($id);
+        $this->ajaxReturn($list);
+    }
+
+    public function createActivity(){
+        $data=I('post.');
+        $data['user_id']=session('user_id');
+
+        $table=M('activity');
+        if($table->create()){
+            $result = $table->add($data); // 写入数据到数据库
+            if($result){
+                $insertId = $result;
+            }
+        }
+
+        $User=M('User');        //设置手机
+        $res=$User->where('id='.$data['user_id'])->setField('phone',$data['phone']);
+
+        redirect(__APP__."/Home/Index/index");
     }
 }

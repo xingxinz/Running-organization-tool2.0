@@ -59,12 +59,12 @@ class IndexController extends Controller {
         // $this->assign('list',$list);
 
         //获取我加入的activity
-        $id=session('user_id');
-        if($id){
-            $Join=M('Join');
-            $mylist=$Join->where('tryst_join.user_id='.$id)->join("JOIN tryst_activity ON tryst_join.activity_id=tryst_activity.id")->select();
-            $this->assign('mylist',$mylist);
-        }
+        // $id=session('user_id');
+        // if($id){
+        //     $Join=M('Join');
+        //     $mylist=$Join->where('tryst_join.user_id='.$id)->join("JOIN tryst_activity ON tryst_join.activity_id=tryst_activity.id")->select();
+        //     $this->assign('mylist',$mylist);
+        // }
 
 
         $this->display();
@@ -121,20 +121,5 @@ class IndexController extends Controller {
         $this->redirect('Index/index');
     }
 
-    public function createActivity(){
-        $data=I('post.');
-
-        $table=M('activity');
-        if($table->create()){
-            $result = $table->add(); // 写入数据到数据库
-            if($result){
-                $insertId = $result;
-            }
-        }
-
-        $User=M('User');        //设置手机
-        $res=$User->where('id='.$data['user_id'])->setField('phone',$data['phone']);
-
-        redirect(__APP__."/Home/Index/index");
-    }
+    
 }
