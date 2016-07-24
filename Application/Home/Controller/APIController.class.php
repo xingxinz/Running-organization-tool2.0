@@ -176,17 +176,27 @@ class APIController extends Controller {
         $this->redirect('API/bind');
     }
     
-    public function getDetail(){
+    public function getDetail(){        //0错误，1管理员，2成员，3未加入
     	$id=I('id');
     	if($id){
     		$Activity=M('Activity');
     		$Join=M('join');
             $User=M('User');
 
-    		$data['type']=1;
+            $data['type']=3;
     		$data['activity']=$Activity->find($id);
             $data['admin']=$User->find($data['activity']['user_id']);
     		$data['member']=$Join->where('activity_id='.$id)->select();
+            if($data['activity']['user_id']==session('user_id')){
+                $data['type']=1;
+            }else{
+                foreach ($data['member'] as $key => $value) {
+                    if($value['user_id']==session('user_id')){
+                        $data['type']=2;
+                        break;
+                    }
+                }
+            }
 
     	}else{
     		$data['type']=0;
@@ -248,6 +258,6 @@ class APIController extends Controller {
         $User=M('User');        //设置手机
         $res=$User->where('id='.$data['user_id'])->setField('phone',$data['phone']);
 
-        redirect(__APP__."/Home/Index/index");
+        redirect(__APP__."/Home/Index/index?id=$insertId");
     }
 }

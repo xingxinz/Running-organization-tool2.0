@@ -140,6 +140,23 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
         $$("#d-time").val(data['activity']['time']);
         $$("#d-comment").val(data['activity']['info']);
 
+        var button=$$("#btn_join");   //修改按键，0错误，1管理员，2成员，3未加入
+        button.text('');
+        button.removeData('id');
+        switch(data['type'])
+        {
+        case 1:
+        case 2:
+          button.text("已加入");
+          break;
+        case 3:
+          button.text("点击加入");
+          button.data('id',u_info[0]['id']);
+          break;
+        default:
+          myApp.alert("Error");
+        }
+
         var admin=$$("#admin").find("ul").find("li").find("div");     //添加发起人
         admin.children().remove();
         var b="";
@@ -152,7 +169,7 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
         b += "</div>";
         admin.append(b);
 
-        var member=$$("#member").find("ul");
+        var member=$$("#member").find("ul");      //添加成员
         member.children().remove();
         if(data['member'].length==0){
           var b="";
