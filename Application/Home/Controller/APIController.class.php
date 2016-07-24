@@ -20,7 +20,7 @@ class APIController extends Controller {
 	public function sign(string $openid){
 		$msg_early=array('tooEarly'=>'你签到太早了，作弊可不好哦！','early'=>'你起来的好早，等5点后再来签到吧！');
         $msg_late="07:30后就不能签到了，明天早点起床啊！";
-		$hour=time();
+        $hour=time();
         
         //首先验证是否绑定公众号
         $User=M('User');
@@ -33,66 +33,66 @@ class APIController extends Controller {
             return $msg;
         }else{
 
-			$id=$info[0]['id'];
-			$Sign=M('Sign');
-			
+            $id=$info[0]['id'];
+            $Sign=M('Sign');
+            
             $where1['user_id']=$id;
-			$lastday=$Sign->where($where1)->order('time desc')->getField('time');	//得到上一次签到时间
+            $lastday=$Sign->where($where1)->order('time desc')->getField('time');   //得到上一次签到时间
 
-			if(date('Ymd',strtotime($lastday))==date('Ymd')){	//判断是否签到
-				$msg=array();
-	        	$msg=array('time'=>date('H:i:s',strtotime($lastday)),
+            if(date('Ymd',strtotime($lastday))==date('Ymd')){   //判断是否签到
+                $msg=array();
+                $msg=array('time'=>date('H:i:s',strtotime($lastday)),
                            'color'=>'#337ab7',
-	        			'days'=>$info[0]['days'],
-	        			'keep'=>$info[0]['keepdays'],
-	        			'title'=>'你今天已经签过到了！',
-	        			'msg'=>'');
+                        'days'=>$info[0]['days'],
+                        'keep'=>$info[0]['keepdays'],
+                        'title'=>'你今天已经签过到了！',
+                        'msg'=>'');
                 return $msg;
-	        }
-			
-            if($hour<mktime(3)){		//5点至7点半签到
+            }
+            
+            if($hour<mktime(3)){        //5点至7点半签到
                 return $msg_early['tooEarly'];
             }else if($hour<mktime(5)){
                 return $msg_early['early'];
             }else if($hour>mktime(7,30)){
                 $msg=array();
-	        	$msg=array('time'=>"今天未签到",
+                $msg=array('time'=>"今天未签到",
                            'color'=>'#ff0000',
-	        			'days'=>$info[0]['days'],
-	        			'keep'=>$info[0]['keepdays'],
-                       'title'=>"你比施建锋起的还晚，还有脸来签到吗，明天07:30之前就要来签到哦",	
-	        			'msg'=>'');
+                        'days'=>$info[0]['days'],
+                        'keep'=>$info[0]['keepdays'],
+                       'title'=>"你比施建锋起的还晚，还有脸来签到吗，明天07:30之前就要来签到哦",    
+                        'msg'=>'');
                 return $msg;
-			}
+            }
             
-			$data['time']=date('Y-m-d H:i:s');
-	        $data['user_id']=$id;
-	        $Insertid=$Sign->add($data);		//签到存表
-	        $info[0]['days']++;					//签到天数+1
-	        if(!$lastday || date('Ymd',strtotime($lastday." +1 day"))==date('Ymd')){
-	        	$info[0]['keepdays']++;		//连续天数+1
-	        }else{
-	        	$info[0]['keepdays']=0;		//连续天数置0
-	        }
+            $data['time']=date('Y-m-d H:i:s');
+            $data['user_id']=$id;
+            $Insertid=$Sign->add($data);        //签到存表
+            $info[0]['days']++;                 //签到天数+1
+            if(!$lastday || date('Ymd',strtotime($lastday." +1 day"))==date('Ymd')){
+                $info[0]['keepdays']++;     //连续天数+1
+            }else{
+                $info[0]['keepdays']=0;     //连续天数置0
+            }
 
-	        $User->save($info[0]);
+            $User->save($info[0]);
 
             $seed=mt_rand(1,120);
             $SignMsg=M('Signmsg');
             $jitang=$SignMsg->where('id='.$seed)->getField('content');
 
-	        $msg=array();
-	        $msg=array('time'=>date('H:i:s',strtotime($data['time'])),
+            $msg=array();
+            $msg=array('time'=>date('H:i:s',strtotime($data['time'])),
                        'color'=>'#337ab7',
-	        			'days'=>$info[0]['days'],
-	        			'keep'=>$info[0]['keepdays'],
-                       'title'=>'恭喜你签到成功！'.$jitang,		//一日之计在于晨，新的一天要加油啊
-	        			'msg'=>'');
+                        'days'=>$info[0]['days'],
+                        'keep'=>$info[0]['keepdays'],
+                       'title'=>'恭喜你签到成功！'.$jitang,     //一日之计在于晨，新的一天要加油啊
+                        'msg'=>'');
             if($openid == 'oP516v1IfZZV6fbxhzR7nkGR_Wy8'){
                 $msg['title']='施总早上好！'.$jitang;
             }
 
-	        return $msg;
+            return $msg;
         }
 
         

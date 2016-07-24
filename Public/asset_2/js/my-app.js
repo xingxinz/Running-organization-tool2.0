@@ -7,7 +7,8 @@ var $$ = Framework7.$;
 // Add view
 var mainView = myApp.addView('.view-main', {
   // Because we want to use dynamic navbar, we need to enable it for this view:
-  dynamicNavbar: true
+  dynamicNavbar: true,
+  url:'http://' + domain + '/index.php/Home/Index/display.html'
 });
 
 var a_id = GetQueryString("id"); //活动ID
@@ -35,71 +36,82 @@ $$.ajax({ //获取用户信息
   },
 });
 //index init
-console.log(a_id);
+  myApp.alert(123);
+  mainView.router.loadPage('http://' + domain + '/index.php/Home/Index/display.html')
 
-if (a_id != null) {
-  mainView.router.loadPage('http://' + domain + '/index.php/Home/Index/detail.html');
-}
-
-var list = $$('.list-block');
-list.children().remove(); //清除页面
-
-$$.ajax({ //获取数据
-  cache: false,
-  type: "POST",
-  url: toUrl + "getActivity",
-  dataType: "json",
-  data: 1,
-  timeout: 30000,
-
-  error: function() {
-    myApp.alert("获取消息出错，请联系管理员");
-    console.log(toUrl + "getActivity");
-  },
-  success: function(data) {
-    console.log(data);
-    list.append("<ul>");
-    list = list.children();
-    if(data.length==0){
-        var b = "";
-        b += "<li>";
-        b += "<div class=item-inner>";
-        b += "<div class=item-title-row>";
-        b += "<div class=item-title>当前无成员加入</div>";
-        b += "</div>";
-        b += "</div>";
-        b += "</li>";
-        list.append(b);
-    }else{
-        data.forEach(function(res) { //遍历数组
-        var b = "";
-        b += "<li>";
-        b += "<a  class='item-link item-content' data-id=" + res['id'] + ">";
-        b += "<div class=item-media><img src=" + res['img'] + " width=80></div>";
-        b += "<div class=item-inner>";
-        b += "<div class=item-title-row>";
-        b += "<div class=item-title>" + res['name'] + "</div>";
-        b += "<div class=item-after>" + res['username'] + "</div>";
-        b += "</div>";
-        b += "<div class=item-subtitle>" + res['area'] + "</div>";
-        b += "<div class=item-subtitle>活动人数" + res['now_total'] + "/" + res['total'] + "</div>";
-        b += "<div class=item-subtitle>" + res['time'] + "</div>";
-        b += "<div class=item-text>" + res['info'] + "</div>";
-        b += "</div></a>";
-        list.append(b);
-        list.append("</li>");
-      });
-    }
-  }
-});
 
 function getActivityId(e) {
   console.log($$(e));
   console.log(this);
   a_id =$$(e).data('id');
-  mainView.router.load('http://' + domain + '/index.php/Home/Index/detail.html');
+  mainView.router.loadPage('http://' + domain + '/index.php/Home/Index/detail.html');
 }
+// DISPLAY.js
+$$(document).on('pageInit', '.page[data-page="index"]', function(e) {
+  // search bar
+  console.log(123);
+  var mySearchbar = myApp.searchbar('.searchbar', {
+    searchList: '.list-block',
+    searchIn: '.item-title, .item-subtitle'
+  });
 
+  if (a_id != null) {
+    mainView.router.loadPage('http://' + domain + '/index.php/Home/Index/detail.html');
+  }
+
+  var list = $$('.list-block');
+  list.children().remove(); //清除页面
+
+  $$.ajax({ //获取数据
+    cache: false,
+    type: "POST",
+    url: toUrl + "getActivity",
+    dataType: "json",
+    data: 1,
+    timeout: 30000,
+
+    error: function() {
+      myApp.alert("获取消息出错，请联系管理员");
+      console.log(toUrl + "getActivity");
+    },
+    success: function(data) {
+      console.log(data);
+      list.append("<ul>");
+      list = list.children();
+      if(data.length==0){
+          var b = "";
+          b += "<li>";
+          b += "<div class=item-inner>";
+          b += "<div class=item-title-row>";
+          b += "<div class=item-title>当前无成员加入</div>";
+          b += "</div>";
+          b += "</div>";
+          b += "</li>";
+          list.append(b);
+      }else{
+          data.forEach(function(res) { //遍历数组
+          var b = "";
+          b += "<li>";
+          b += "<a  class='item-link item-content' data-id=" + res['id'] + ">";
+          b += "<div class=item-media><img src=" + res['img'] + " width=80></div>";
+          b += "<div class=item-inner>";
+          b += "<div class=item-title-row>";
+          b += "<div class=item-title>" + res['name'] + "</div>";
+          b += "<div class=item-after>" + res['username'] + "</div>";
+          b += "</div>";
+          b += "<div class=item-subtitle>" + res['area'] + "</div>";
+          b += "<div class=item-subtitle>活动人数" + res['now_total'] + "/" + res['total'] + "</div>";
+          b += "<div class=item-subtitle>" + res['time'] + "</div>";
+          b += "<div class=item-text>" + res['info'] + "</div>";
+          b += "</div></a>";
+          list.append(b);
+          list.append("</li>");
+        });
+      }
+    }
+  });
+
+});
 // ORGANIZE.js
 $$(document).on('pageInit', '.page[data-page="organize"]', function(e) {
   // Following code will be executed for page with data-page attribute equal to "organize"
@@ -426,8 +438,4 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
   });
 })
 
-// search bar
-var mySearchbar = myApp.searchbar('.searchbar', {
-  searchList: '.list-block',
-  searchIn: '.item-title, .item-subtitle'
-});
+
