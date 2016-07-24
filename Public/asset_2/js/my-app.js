@@ -37,7 +37,9 @@ $$.ajax({ //获取用户信息
 });
 //index init
   //myApp.alert(123);
-  mainView.router.loadPage('http://' + domain + '/index.php/Home/Index/display.html');
+  mainView.router.load({
+    url:'http://' + domain + '/index.php/Home/Index/display.html',
+    animatePages:false });
   //myApp.alert(456);
 
 
@@ -444,7 +446,7 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
         type: "POST",
         url: toUrl + "getWxSign",
         dataType: "json",
-        data: id,
+        data: window.location.href,
         timeout: 30000,
 
         error: function(e){
@@ -452,21 +454,34 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
         },
         success: function(data){
           console.log(data);
+          wx.config({
+            debug: true,
+            appId: data['appId'],
+            timestamp: data['timestamp'],
+            nonceStr: data['nonceStr'],
+            signature: data['signature'],
+            jsApiList: [
+              onMenuShareTimeline,
+              onMenuShareAppMessage// 所有要调用的 API 都要加到这个列表中
+            ]
+          });
+          wx.ready(function () {
+            // 在这里调用 API
+            wx.onMenuShareTimeline({
+                title: '我创建了一个约跑，快来加入吧', // 分享标题
+                link: 'http://'+domain+'/index.php/Home/Index?id='+a_id, // 分享链接
+                imgUrl: '', // 分享图标
+                success: function () { 
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function () { 
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+          });
         }
   });
-  // wx.config({
-  //   debug: true,
-  //   appId: '<?php echo $signPackage["appId"];?>',
-  //   timestamp: <?php echo $signPackage["timestamp"];?>,
-  //   nonceStr: '<?php echo $signPackage["nonceStr"];?>',
-  //   signature: '<?php echo $signPackage["signature"];?>',
-  //   jsApiList: [
-  //     // 所有要调用的 API 都要加到这个列表中
-  //   ]
-  // });
-  // wx.ready(function () {
-  //   // 在这里调用 API
-  // });
+  
 })
 
 

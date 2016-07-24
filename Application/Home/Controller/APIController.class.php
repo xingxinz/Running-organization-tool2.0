@@ -292,8 +292,19 @@ class APIController extends Controller {
     }
 
     public function getWxSign(){
-        $Wechat= new \Org\Com\TPWechat($this->$options);
-        $res=$Wechat->getJsSign();
+        $Wechat= new \Org\Com\TPWechat($this->options);
+        $access_token=S('access_token');
+        if(!$access_token){
+            $access_token=$Wechat->checkAuth();
+            S('access_token',$access_token,7200);
+        }
+        $url=I('post.');
+        $ticket=S('ticket');
+        if(!$ticket){
+            $ticket=$Wechat->getJsTicket();
+            S('ticket',$ticket,7200);
+        }
+        $res=$Wechat->getJsSign($url);
         $this->ajaxReturn($res);
     }
 }
