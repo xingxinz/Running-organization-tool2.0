@@ -298,12 +298,14 @@ class APIController extends Controller {
             $access_token=$Wechat->checkAuth();
             S('access_token',$access_token,7200);
         }
+        var_dump($access_token);
         $url=I('post.');
         $ticket=S('ticket');
         if(!$ticket){
             $ticket=$Wechat->getJsTicket();
             S('ticket',$ticket,7200);
         }
+        var_dump($ticket);
         $res=$Wechat->getJsSign($url);
         $this->ajaxReturn($res);
     }
