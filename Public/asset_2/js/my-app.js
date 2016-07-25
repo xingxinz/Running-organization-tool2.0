@@ -37,9 +37,20 @@ $$.ajax({ //获取用户信息
 });
 //index init
   //myApp.alert(123);
-  mainView.router.load({
-    url:'http://' + domain + '/index.php/Home/Index/display.html',
-    animatePages:false });
+  
+  mainView.router.loadPage({
+      url:'http://' + domain + '/index.php/Home/Index/display.html',
+      animatePages:false });
+  if (a_id != null) {
+    //mainView.router.loadPage('http://' + domain + '/index.php/Home/Index/detail.html');
+    myApp.onPageAfterAnimation('index', function(page){
+      mainView.router.loadPage({
+        url:'http://' + domain + '/index.php/Home/Index/detail.html',
+        //animatePages:false 
+        });
+    });
+  }
+
   //myApp.alert(456);
 
 
@@ -51,15 +62,12 @@ function getActivityId(e) {
 }
 // DISPLAY.js
 $$(document).on('pageInit', '.page[data-page="index"]', function(e) {
+
   // search bar
   var mySearchbar = myApp.searchbar('.searchbar', {
     searchList: '.list-block',
     searchIn: '.item-title, .item-subtitle, .item-after'
   });
-
-  if (a_id != null) {
-    mainView.router.loadPage('http://' + domain + '/index.php/Home/Index/detail.html');
-  }
 
   var list = $$('.list-block');
   list.children().remove(); //清除页面
@@ -387,7 +395,8 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
 
   //点击加入
   $$("#btn_join").click(function(e){
-    var id=$$(this).data('id');
+    var objectModel={};
+    objectModel['id']=$$(this).data('id');
     console.log(id);
     if(id==undefined){
       myApp.alert('您已在该活动中！');
@@ -397,7 +406,7 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
         type: "POST",
         url: toUrl + "join",
         dataType: "json",
-        data: id,
+        data: objectModel,
         timeout: 30000,
 
         error: function(e){

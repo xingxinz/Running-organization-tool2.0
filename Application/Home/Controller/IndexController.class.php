@@ -120,6 +120,5 @@ class IndexController extends Controller {
 
         $this->redirect('Index/index');
     }
-
     
 }
