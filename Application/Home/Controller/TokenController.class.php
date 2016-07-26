@@ -31,7 +31,7 @@ class TokenController extends Controller {
             'appid'=>'wx81f64260178ef961', //填写高级调用功能的app id
             'appsecret'=>'630aad385d1eaa2eef012777ce8f9670' //填写高级调用功能的密钥
         );
-        $weObj = new \Org\Com\TPWechat($options);
+        $weObj = new \Org\Com\Wechat($options);
         $weObj->valid();
         $msg=$weObj->getRev();
         $type=$msg->getRevType();
@@ -39,7 +39,7 @@ class TokenController extends Controller {
                 case \Org\Com\TPWechat::MSGTYPE_TEXT:
                     $text=$msg->getRevContent();
                     if($text=='GuoxUnique'){
-                        $weObj->text("http://keep.guoxunique.com")->reply();
+                        $weObj->text("http://joyball.guoxunique.com")->reply();
                     }
                     exit;
                     break;
@@ -65,7 +65,7 @@ class TokenController extends Controller {
             	case \Org\Com\Wechat::EVENT_MENU_CLICK:
                     $key=$event['key'];
                     $openid=$msg->getRevFrom();
-            //$weObj->text("$openid")->reply();
+            // $weObj->text("$key")->reply();
                     break;
                 
             	default:
@@ -76,7 +76,7 @@ class TokenController extends Controller {
         switch($key){
             case V1001_SIGN:
                 $API=A('API');
-                $msg=$API->sign($openid,$weObj);
+                $msg=$API->sign($openid);
                 if(!is_array($msg)){
                     $weObj->text("$msg")->reply();
                 }
@@ -112,7 +112,7 @@ class TokenController extends Controller {
                     $weObj->sendTemplateMessage($data);
                     
                 }
-            	break;
+            	exit;
             
             default:
             	exit;
