@@ -312,7 +312,7 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
         myApp.alert("获取消息出错，请联系管理员");
       },
       success: function(data) {
-        a_info=data.concat();
+        a_info=data;
         console.log(data);
         $$("#d-username").val(''); //基础信息
         $$("#d-name").val('');
@@ -379,10 +379,11 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
             b += "</div>";
             b += "<div class=item-subtitle>" + value['sex'] + "</div>";
             b += "</div></div></div>";
-            b += "<div class=swipeout-content>";
-            b += "<a href= class=bg-red>踢出</a>";
-            b += "<div class=swipeout-content>";
-            b += "</div>";
+            if(u_info[0]['id']==a_info['admin']['id']){
+              b += "<div class=swipeout-actions-right>";
+              b += "<a href='' class=bg-red>踢出</a>";
+              b += "</div>";
+            }
             b += "</li>";
             member.append(b);
           });
@@ -424,7 +425,7 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
             mainView.router.refreshPage();
             break;
           case 2:
-            button.text("Sorry,已经满员!");
+            myApp.alert("Sorry,已经满员!");
             break;
           default:
             myApp.alert("Error");

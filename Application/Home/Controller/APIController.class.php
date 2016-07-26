@@ -191,19 +191,17 @@ class APIController extends Controller {
 
             $data['type']=3;
     		$data['activity']=$Activity->find($id);
+            $data['activity']['time']=date('m-d H:i',strtotime($data['activity']['time']));
             $data['admin']=$User->find($data['activity']['user_id']);
     		$data['member']=$Join->where('activity_id='.$id)->select();
-            foreach ($data['member'] as $key => $value) {
-                $data['member'][$key]=$User->find($value['user_id']);
-            }
             if($data['activity']['user_id']==session('user_id')){
                 $data['type']=1;
             }else{
                 foreach ($data['member'] as $key => $value) {
                     if($value['user_id']==session('user_id')){
                         $data['type']=2;
-                        break;
                     }
+                    $data['member'][$key]=$User->find($value['user_id']);
                 }
             }
 
@@ -223,7 +221,8 @@ class APIController extends Controller {
             $info=$Activity->find($data['activity_id']);
 
             if($info['total']==$info['now_total']){
-                return $result['type']=2;
+                $result['type']=2;
+                $this->ajaxReturn($result);
             }
 
             $data['user_id']=session('user_id');
