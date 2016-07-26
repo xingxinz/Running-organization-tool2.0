@@ -193,6 +193,9 @@ class APIController extends Controller {
     		$data['activity']=$Activity->find($id);
             $data['admin']=$User->find($data['activity']['user_id']);
     		$data['member']=$Join->where('activity_id='.$id)->select();
+            foreach ($data['member'] as $key => $value) {
+                $data['member'][$key]=$User->find($value['user_id']);
+            }
             if($data['activity']['user_id']==session('user_id')){
                 $data['type']=1;
             }else{
@@ -215,7 +218,7 @@ class APIController extends Controller {
     /* @return 0-失败;1-成功;2-满员 */
     public function join(){
         $data['activity_id']=I('id');
-        if($id){
+        if($data['activity_id']){
             $Activity=M('Activity');
             $info=$Activity->find($data['activity_id']);
 

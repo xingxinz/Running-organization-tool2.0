@@ -13,6 +13,7 @@ var mainView = myApp.addView('.view-main', {
 
 var a_id = GetQueryString("id"); //活动ID
 var u_info = ""; //用户信息
+var a_info = ""; //活动信息
 var domain = document.domain;
 if (domain == 'localhost') { //本地测试出错请检查此处路径
   domain += '/Running-organization-tool2.0';
@@ -311,6 +312,7 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
         myApp.alert("获取消息出错，请联系管理员");
       },
       success: function(data) {
+        a_info=data.concat();
         console.log(data);
         $$("#d-username").val(''); //基础信息
         $$("#d-name").val('');
@@ -333,7 +335,7 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
             break;
           case 3:
             button.text("点击加入");
-            button.data('id', u_info[0]['id']);
+            button.data('id', a_id);
             break;
           default:
             myApp.alert("Error");
@@ -365,6 +367,7 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
           member.append(b);
         } else {
           $$.each(data['member'], function(key, value) {
+            console.log(value);
             var b = "";
             b += "<li class=swipeout>";
             b += "<div class=swipeout-content>";
@@ -372,7 +375,7 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
             b += "<div class=item-media><img src=" + value['face_url'] + " width=44></div>";
             b += "<div class=item-inner>";
             b += "<div class=item-title-row>";
-            b += "<div class=item-title>发起人：" + value['username'] + "</div>";
+            b += "<div class=item-title>" + value['username'] + "</div>";
             b += "</div>";
             b += "<div class=item-subtitle>" + value['sex'] + "</div>";
             b += "</div></div></div>";
@@ -397,6 +400,7 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
   $$("#btn_join").click(function(e){
     var objectModel={};
     objectModel['id']=$$(this).data('id');
+    console.log(objectModel);
     if(objectModel['id']==undefined){
       myApp.alert('您已在该活动中！');
     }else{
@@ -409,6 +413,7 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
         timeout: 30000,
 
         error: function(e){
+          console.log(e);
           myApp.alert("系统错误");
         },
         success: function(data){
@@ -481,9 +486,20 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
   wx.ready(function () {
   // 在这里调用 API
     wx.onMenuShareTimeline({
-      title: '我创建了一个约跑，快来加入吧', // 分享标题
+      title: '这里有一个约跑,'+a_info['activity']['time']+'我在'+a_info['activity']['area']+'等你', // 分享标题
       link: 'http://'+domain+'/index.php/Home/Index?id='+a_id, // 分享链接
-      imgUrl: '', // 分享图标
+      imgUrl: u_info['0']['face_url'], // 分享图标
+      success: function () { 
+      // 用户确认分享后执行的回调函数
+      },
+      cancel: function () { 
+      // 用户取消分享后执行的回调函数
+      }
+    });
+    wx.onMenuShareAppMessage({
+      title: '这里有一个约跑,'+a_info['activity']['time']+'我在'+a_info['activity']['area']+'等你', // 分享标题
+      link: 'http://'+domain+'/index.php/Home/Index?id='+a_id, // 分享链接
+      imgUrl: u_info['0']['face_url'], // 分享图标
       success: function () { 
       // 用户确认分享后执行的回调函数
       },
