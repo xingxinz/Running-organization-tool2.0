@@ -415,7 +415,7 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
             b += "</div></div></div>";
             if(u_info[0]['id']==a_info['admin']['id']){
               b += "<div class=swipeout-actions-right>";
-              b += "<a href='' class=bg-red>踢出</a>";
+              b += "<a href='#' class='deleteMember bg-red' data-user_id="+value['id']+" data-info_id="+a_info['activity']['id']+">踢出</a>";
               b += "</div>";
             }
             b += "</li>";
@@ -469,6 +469,46 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
       });
     }
   });
+
+  //踢出组员
+  $$('.deleteMember').on('click',function(){
+    myApp.alert('sure?');
+    var objectModel={};
+    objectModel['user_id']=$$(this).data('user_id');
+    objectModel['info_id']=$$(this).data('info_id');
+    console.log(objectModel);
+    if(objectModel['user_id']==undefined || objectModel['info_id']==undefined){
+      myApp.alert('没有权限!');
+    }else{
+      $$.ajax({
+        cache: false,
+        type: "POST",
+        url: toUrl + "deleteMember",
+        dataType: "json",
+        data: objectModel,
+        timeout: 30000,
+
+        error: function(e){
+          console.log(e);
+          myApp.alert("系统错误");
+        },
+        success: function(data){
+          switch(data['type'])
+          {
+          case 1:
+            myApp.alert("踢出成功");
+            mainView.router.refreshPage();
+            break;
+          case 0:
+          default:
+            myApp.alert("Error");
+            break;
+          }
+        }
+      });
+    }
+  });
+
   // 点击出现分享提示幕布
   $$("#btn-share").click(function(e) {
     /* Act on the event */

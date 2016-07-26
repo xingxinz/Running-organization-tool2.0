@@ -196,13 +196,12 @@ class APIController extends Controller {
     		$data['member']=$Join->where('activity_id='.$id)->select();
             if($data['activity']['user_id']==session('user_id')){
                 $data['type']=1;
-            }else{
-                foreach ($data['member'] as $key => $value) {
-                    if($value['user_id']==session('user_id')){
-                        $data['type']=2;
-                    }
-                    $data['member'][$key]=$User->find($value['user_id']);
+            }
+            foreach ($data['member'] as $key => $value) {
+                if($value['user_id']==session('user_id')){
+                    $data['type']=2;
                 }
+                $data['member'][$key]+=$User->find($value['user_id']);
             }
 
     	}else{
@@ -310,6 +309,43 @@ class APIController extends Controller {
         }
         //var_dump($ticket);
         $res=$Wechat->getJsSign($url);
+        $this->ajaxReturn($res);
+    }
+
+    /*
+        @return 0失败，1成功
+     */
+    public function deleteMember(){
+        $data['activity_id']=I('info_id');
+        $data['user_id']=I('user_id');
+
+        $Activity=M('Activity');
+        $User=M('User');
+        $Join=M('Join');
+
+        $act=$Activity->find($data['activity_id']);
+        if($act['user_id']!=session('user_id')){        //验证权限
+            $res['type']=0;
+            $this->ajaxReturn($res);
+        }
+
+        //检查成员是否存在
+        $member=$Join->where($data)->find();
+        if(empty($member)){
+            $res['type']=0;
+            $this->ajaxReturn($res);
+        }
+
+        //踢出组员
+        try{
+            $res1=$Join->delete($member['id']);
+            $res2=$Activity->where($act)->setDec('now_total');
+        }catch (Exception $e){
+            $res['type']=0;
+            $this->ajaxReturn($res);
+        }
+
+        $res['type']=1;
         $this->ajaxReturn($res);
     }
 }
