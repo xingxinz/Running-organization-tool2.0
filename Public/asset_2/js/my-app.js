@@ -397,7 +397,6 @@ $$(document).on('pageInit', '.page[data-page="detail"]', function(e) {
   $$("#btn_join").click(function(e){
     var objectModel={};
     objectModel['id']=$$(this).data('id');
-    console.log(id);
     if(id==undefined){
       myApp.alert('您已在该活动中！');
     }else{
