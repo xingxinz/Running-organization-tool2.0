@@ -130,63 +130,97 @@ $$(document).on('pageInit', '.page[data-page="organize"]', function(e) {
   $$("#phone").val('');
   $$("#username").val(u_info[0]['username']);
   $$("#phone").val(u_info[0]['phone']);
+
+  //---------------------- timepicker ---------------------------------//
   var today = new Date();
+
+  var getDays = function(max) {
+      var days = [];
+      for(var i=1; i<= (max||31);i++) {
+          days.push(i < 10 ? "0"+i : i);
+      }
+      return days;
+  };
+
+  var getDaysByMonthAndYear = function(month, year) {
+      var int_d = new Date(year, parseInt(month)+1-1, 1);
+      var d = new Date(int_d - 1);
+      return getDays(d.getDate());
+  };
+
+  var formatNumber = function (n) {
+      return n < 10 ? "0" + n : n;
+  };
+
+  var initMonthes = ('01 02 03 04 05 06 07 08 09 10 11 12').split(' ');
+
+  var initYears = (function () {
+      var arr = [];
+      for (var i = today.getFullYear(); i <= 2050; i++) { arr.push(i); }
+      return arr;
+  })();
 
   var pickerDescribe = myApp.picker({
     input: '#picker-date',
-    rotateEffect: true,
+    rotateEffect: false,  //为了性能
 
-    value: [today.getMonth(), today.getDate(), today.getFullYear(), today.getHours(), (today.getMinutes() < 10 ? '0' + today.getMinutes() : today.getMinutes())],
+    value: [today.getFullYear(), formatNumber(today.getMonth()+1), formatNumber(today.getDate()), today.getHours(), formatNumber(today.getMinutes())],
 
-    formatValue: function(p, values, displayValues) {
-      return displayValues[0] + ' ' + values[1] + ', ' + values[2] + ' ' + values[3] + ':' + values[4];
+    formatValue: function (p, values, displayValues) {
+        return values[0] + '-' + values[1] + '-' + values[2] + ' ' + values[3] + ':' + values[4];
+    },
+
+    onChange: function (picker, values, displayValues) {
+        var days = getDaysByMonthAndYear(picker.value[1], picker.value[0]);
+        var currentValue = picker.value[2];
+        if(currentValue > days.length) {
+          currentValue = days.length;
+          picker.cols[2].setValue(currentValue);
+        }
     },
 
     cols: [
-      // Months
-      {
-        values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-      },
-      // Days
-      {
-        values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
-      },
-      // Years
-      {
-        values: (function() {
-          var arr = [];
-          for (var i = 2016; i <= 2030; i++) { arr.push(i); }
-          return arr;
-        })(),
-      },
-      // Space divider
-      {
+        // Years
+    {
+        values: initYears
+    },
+    // Months
+    {
+        values: initMonthes
+    },
+    // Days
+    {
+        values: getDays()
+    },
+
+    // Space divider
+    {
         divider: true,
         content: '  '
-      },
-      // Hours
-      {
-        values: (function() {
-          var arr = [];
-          for (var i = 0; i <= 23; i++) { arr.push(i); }
-          return arr;
+    },
+    // Hours
+    {
+        values: (function () {
+            var arr = [];
+            for (var i = 0; i <= 23; i++) { arr.push(i); }
+            return arr;
         })(),
-      },
-      // Divider
-      {
+    },
+    // Divider
+    {
         divider: true,
         content: ':'
-      },
-      // Minutes
-      {
-        values: (function() {
-          var arr = [];
-          for (var i = 0; i <= 59; i++) { arr.push(i < 10 ? '0' + i : i); }
-          return arr;
+    },
+    // Minutes
+    {
+        values: (function () {
+            var arr = [];
+            for (var i = 0; i <= 59; i++) { arr.push(i < 10 ? '0' + i : i); }
+            return arr;
         })(),
-      }
-    ]
+    }]    
   });
+  //---------------------- timepickerend ---------------------------------//
 })
 
 // INFORMATION.js
