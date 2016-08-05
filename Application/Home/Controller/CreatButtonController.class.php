@@ -10,11 +10,81 @@ class CreatButtonController extends Controller {
     public function creat_button(){
         $jsonmenu = '{
           "button":[
-          {
-            "type":"click",
-            "name":"早起签到",
-            "key":"V1001_SIGN"
-          }
+			{
+			"name"="Have fun",
+			"sub_button":[
+				{
+					"type":"text",
+					"name":"关于我们",
+					"value":"我们是一只训练有素的队伍！"
+				},
+				{
+					"type":"text",
+					"name":"调戏小编",
+					"value":"想发任何消息都可以哦！"
+				},
+				{
+					"type":"view",
+					"name":"减肥互助社区",
+					"value":"http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzI4MjM5MzIxNg==#wechat_webview_type=1&wechat_redirect"
+				},
+				{
+					"type":"view",
+					"name":"男神女生励志贴",
+					"value":"http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzI4MjM5MzIxNg==#wechat_webview_type=1&wechat_redirect"
+				},
+			]	
+			},
+			{
+			"name"="Keep Hea",
+			"sub_button":[
+				{
+					"type":"view",
+					"name":"定制运动计划",
+					"value":"http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzI4MjM5MzIxNg==#wechat_webview_type=1&wechat_redirect"
+				},
+				{
+					"type":"view",
+					"name":"养生知识",
+					"value":"http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzI4MjM5MzIxNg==#wechat_webview_type=1&wechat_redirect"
+				},
+				{
+					"type":"view",
+					"name":"拉伸塑形",
+					"value":"http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzI4MjM5MzIxNg==#wechat_webview_type=1&wechat_redirect"
+				},
+				{
+					"type":"view",
+					"name":"燃脂瘦身",
+					"value":"http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzI4MjM5MzIxNg==#wechat_webview_type=1&wechat_redirect"
+				},
+			]	
+			}, 
+			{
+			"name"="Running",
+			"sub_button":[
+				{
+					"type":"view",
+					"name":"马拉松赛事",
+					"value":"http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzI4MjM5MzIxNg==#wechat_webview_type=1&wechat_redirect"
+				},
+				{
+					"type":"view",
+					"name":"跑步音乐",
+					"value":"http://music.163.com/m/playlist?id=431352322&userid=123909975&from=singlemessage&isappinstalled=0#?thirdfrom=wx"
+				},
+				{
+					"type":"view",
+					"name":"我要约跑",
+					"value":"http://joyball.guoxunique.com"
+				},
+				{
+					"type":"click",
+					"name":"早起签到",
+					"key":"V1001_SIGN"
+				},
+			]	
+			} 
           ]
          }';
        
@@ -41,8 +111,8 @@ class CreatButtonController extends Controller {
 
     //得到access_token
     public function get_access_token(){
-        $appid = "wx81f64260178ef961";
-        $appsecret = "630aad385d1eaa2eef012777ce8f9670";
+        $appid = "wx68fdd3097b99d582";
+	    $appsecret = "b43365db0cb477e11734b852d2a37c6";
         $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appid&secret=$appsecret";
 
         $ch = curl_init();
