@@ -28,7 +28,7 @@ class TokenController extends Controller {
         $options = array(
             'token'=>'joyball', //填写你设定的key
             'EncodingAESKey'=>'BgjROqIeSw1xgheDGUmLbmZEcMhTlPyvrz3DKarJNmC',
-            'appid'=>'wx81f64260178ef961', //填写高级调用功能的app id
+            'appid'=>'wx68fdd3097b99d582', //填写高级调用功能的app id
             'appsecret'=>'b43365db0cb477e11734b852d2a37c6d' //填写高级调用功能的密钥
         );
         $weObj = new \Org\Com\Wechat($options);
