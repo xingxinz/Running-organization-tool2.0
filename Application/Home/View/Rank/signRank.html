@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <title>签到排行榜</title>
+  <!-- 新 Bootstrap 核心 CSS 文件 -->
+  <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="__PUBLIC__/asset_rank/css/signRank.css" />
+</head>
+
+<body>
+  <div class="cover">
+    <img src="http://file05.16sucai.com/2015/0609/a93f33d7f2341d86db21a45b831a6660.jpg" alt="" class="img-responsive">
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>我</th>
+			<th>
+				<img src="{$myRecord['face_url']}" alt="" class="img-circle head">
+				<if condition="$myRecord['rank'] neq '-1'">
+					<if condition="$myRecord['rank'] eq 1"><span class="label label-success">第{$myRecord['rank']}名</span>
+					<elseif condition="$myRecord['rank'] eq 2"/><span class="label label-info">第{$myRecord['rank']}名</span>
+					<elseif condition="$myRecord['rank'] eq 3"/><span class="label label-info">第{$myRecord['rank']}名</span>
+					<else/><span class="label label-primary">第{$myRecord['rank']}名</span>
+					</if>
+				<else/> <span class="label label-default">尚无名次</span>
+				</if>
+			</th>
+			<th class="score"><span class="label label-warning">{$myRecord['days']}天</span></th>
+			<th class="score"><span class="label label-success">{$myRecord['point']}分</span></th>
+          </tr>
+        </thead>
+        <thead id="small-thead">
+          <tr>
+			<th width="10%"></th>
+            <th>用户名</th>
+            <th>累计签到</th>
+            <th>积分</th>
+          </tr>
+        </thead>
+		<tbody>
+			<foreach name="list" item="vo">
+			<tr>
+				<if condition="$key eq 0">
+				<th id="first"><i>{$key+1}</i></th>
+				<elseif condition="$key eq 1"/>
+				<th id="second"><i>{$key+1}</i></th>
+				<elseif condition="$key eq 2"/>
+				<th id="third"><i>{$key+1}</i></th>
+				<else/><th>{$key+1}</th>
+				</if>
+				<th>
+					<img src="{$vo['face_url']}" alt="" class="img-circle head">
+					<span>{$vo['username']}</span>
+				</th>
+				<th class="score"><span class="label label-warning">{$vo['days']}天</span></th>
+				<th class="score"><span class="label label-success">{$vo['point']} pt</span></th>
+			</tr>
+
+			</foreach>
+		</tbody>
+	</table>
+    </div>
+  </div>
+</body>
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<!-- <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script> -->
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<!-- <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
+
+</html>

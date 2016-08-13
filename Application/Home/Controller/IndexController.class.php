@@ -9,8 +9,12 @@ class IndexController extends Controller {
                  $this->getinfo();
                 exit();
             }
+             if(substr(session('wechat_openid'),0,6)!='odIiBw'){
+                 session(null);
+                 $this->redirect('Index/index');
+             }
             $where['wechat_openid']=session('wechat_openid');
-
+		
             $users=$User->where($where)->select();
 
                 // var_dump($_SESSION);
@@ -116,7 +120,7 @@ class IndexController extends Controller {
         session('wechat_nickname',$user['nickname']);
         session('wechat_headimgurl',$user['headimgurl']);
         session('wechat_sex',$user['sex']);
-        session('wechat_openid',$user['openid']);
+        session('wechat_openid',$user['unionid']);
 
         $this->redirect('Index/index');
     }

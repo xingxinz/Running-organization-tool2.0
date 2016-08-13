@@ -40,6 +40,8 @@ class TokenController extends Controller {
                     $text=$msg->getRevContent();
                     if($text=='GuoxUnique'){
                         $weObj->text("http://joyball.guoxunique.com")->reply();
+                    }else if($text=='oauth'){
+                        $weObj->text('http://'.$_SERVER['SERVER_NAME'].'/index.php/Home/API/getOauth')->reply();
                     }
                     exit;
                     break;
@@ -58,13 +60,18 @@ class TokenController extends Controller {
         
         switch($event['event']) {
                 case \Org\Com\Wechat::EVENT_SUBSCRIBE:
-                    $weObj->text("hello,欢迎体验持健账号")->reply();
+         				$str[0]="终于等到你".json_decode('"\ud83d\ude48"')."\n";
+						$str[1]="\n这里有最及时的体育资讯\n这里有最in最嗨的体育活动\n这里有最靠谱的小编\n帮你实现科学运动健康瘦身\n";
+                        $str[2]="\n没错".json_decode('"\ud83d\ude46"')."\n这里是全宇宙最有态度的跑步健身公众号。\n趣健跑".json_decode('"\ud83d\udc83"')."\n";
+                        $str[3 ]="\n如果你也是不有趣会死星人，欢迎随时戳下方菜单栏涨姿势。\n欢迎调戏，我们很正经。".json_decode('"\ud83c\udf1a"');
+                        $weObj->text($str[0].$str[1].$str[2].$str[3])->reply();
             		exit;
                     break;
                         
             	case \Org\Com\Wechat::EVENT_MENU_CLICK:
                     $key=$event['key'];
                     $openid=$msg->getRevFrom();
+            		$unionid=$weObj->getUserInfo($openid);
             // $weObj->text("$key")->reply();
                     break;
                 
@@ -75,43 +82,26 @@ class TokenController extends Controller {
         
         switch($key){
             case V1001_SIGN:
+            //$weObj->text("$openid")->reply();
                 $API=A('API');
-                $msg=$API->sign($openid);
-                if(!is_array($msg)){
-                    $weObj->text("$msg")->reply();
-                }
-            	else{
-                    $data=array(
-                        "touser"=>$openid,
-                        "template_id"=>"Of_uzcvexW5Gd20FBBqVofyXFslO042VDqoC4gGWh4c",
-                        "url"=>"",
-                        "topcolor"=>"#FF0000",
-                        "data"=>array(
-                            "first"=>array(
-                                "value"=>"$msg[title]",
-                                "color"=>"$msg[color]"    //参数颜色
-                                ),
-                            "keyword1"=>array(
-                                "value"=>"$msg[time]",
-                                "color"=>"$msg[color]"    //参数颜色
-                                ),
-                            "keyword2"=>array(
-                                "value"=>"$msg[days]",
-                                "color"=>"#173177"    //参数颜色
-                                ),
-                            "keyword3"=>array(
-                                "value"=>"$msg[keep]",
-                                "color"=>"#173177"    //参数颜色
-                                ),
-                            "remark"=>array(
-                                "value"=>"$msg[msg]",
-                                "color"=>"#ff0000"    //参数颜色
-                                )
-                            )
-                        );
-                    $weObj->sendTemplateMessage($data);
-                    
-                }
+                $msg=$API->sign($unionid['unionid']);
+                $weObj->text("$msg")->reply();
+
+            	exit;
+            
+            case V1001_ASK:
+
+                $weObj->text("有任何问题都可以留言，小编看到后会回复你哒！")->reply();
+
+            	exit;
+            
+            case V1001_CHAT:
+            	$weObj->text("欢迎调戏，我们很正经。".json_decode('"\ud83c\udf1a"'))->reply();
+
+            	exit;
+            
+            case V1001_WAIT:
+            	$weObj->text("敬请期待！")->reply();
             	exit;
             
             default:

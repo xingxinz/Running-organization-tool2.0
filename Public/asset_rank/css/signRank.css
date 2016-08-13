@@ -1,0 +1,39 @@
+#small-thead{
+	font-size: 12px;
+}
+#first {
+  color: red;
+  font-size: 22px;
+}
+
+#second{
+	color: 	#00BFFF;
+	font-size: 20px;
+}
+
+#third{
+	color: green;
+	font-size: 18px;
+}
+
+.cover>img {
+  z-index: -1;
+}
+
+.head {
+  height: 50px;
+  width: 50px;
+  margin: 5px;
+}
+
+.score {
+  font-size: 17px;
+}
+
+tbody>tr>th {
+  vertical-align: middle!important;
+}
+
+thead>tr>th {
+  vertical-align: middle!important;
+}

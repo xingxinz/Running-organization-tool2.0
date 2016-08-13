@@ -11,78 +11,69 @@ class CreatButtonController extends Controller {
         $jsonmenu = '{
           "button":[
 			{
-			"name":"Have fun",
+			"name":"健身吧",
 			"sub_button":[
 				{
-					"type":"click",
-					"name":"关于我们",
-					"key":"V1001_ABOUT"
-				},
-				{
-					"type":"click",
-					"name":"调戏小编",
-					"key":"V1001_CHAT"
+					"type":"view",
+					"name":"高能歌单",
+					"url":"http://music.163.com/m/playlist?id=431352322&userid=123909975&from=singlemessage&isappinstalled=0#?thirdfrom=wx"
 				},
 				{
 					"type":"view",
-					"name":"减肥互助社区",
+					"name":"比心贴士",
 					"url":"http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzI4MjM5MzIxNg==#wechat_webview_type=1&wechat_redirect"
 				},
 				{
 					"type":"view",
-					"name":"男神女生励志贴",
+					"name":"装备推荐",
 					"url":"http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzI4MjM5MzIxNg==#wechat_webview_type=1&wechat_redirect"
 				}
 			]},
             
 			{
-			"name":"Keep Hea",
+			"name":"主题吧",
 			"sub_button":[
 				{
 					"type":"view",
-					"name":"定制运动计划",
+					"name":"趣奥运",
 					"url":"http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzI4MjM5MzIxNg==#wechat_webview_type=1&wechat_redirect"
 				},
 				{
-					"type":"view",
-					"name":"养生知识",
-					"url":"http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzI4MjM5MzIxNg==#wechat_webview_type=1&wechat_redirect"
+					"type":"click",
+					"name":"马拉松赛事",
+					"key":"V1001_WAIT"
 				},
 				{
 					"type":"view",
-					"name":"拉伸塑形",
-					"url":"http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzI4MjM5MzIxNg==#wechat_webview_type=1&wechat_redirect"
-				},
-				{
-					"type":"view",
-					"name":"燃脂瘦身",
+					"name":"男神女神励志贴",
 					"url":"http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzI4MjM5MzIxNg==#wechat_webview_type=1&wechat_redirect"
 				}
 			]}, 
             
 			{
-			"name":"Running",
+			"name":"互动吧",
 			"sub_button":[
-				{
-					"type":"view",
-					"name":"马拉松赛事",
-					"url":"http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzI4MjM5MzIxNg==#wechat_webview_type=1&wechat_redirect"
-				},
-				{
-					"type":"view",
-					"name":"跑步音乐",
-					"url":"http://music.163.com/m/playlist?id=431352322&userid=123909975&from=singlemessage&isappinstalled=0#?thirdfrom=wx"
-				},
-				{
-					"type":"view",
-					"name":"我要约跑",
-					"url":"http://joyball.guoxunique.com"
+            	{
+					"type":"click",
+					"name":"打卡签到",
+					"key":"V1001_SIGN"
 				},
 				{
 					"type":"click",
-					"name":"早起签到",
-					"key":"V1001_SIGN"
-				}
+					"name":"瞎扯",
+					"key":"V1001_ASK"
+                },
+				{
+					"type":"click",
+					"name":"趣约趣跑",
+					"key":"V1001_WAIT"
+				},
+				{
+					"type":"click",
+					"name":"调戏小编",
+					"key":"V1001_CHAT"
+                },
+				
 			]
             } 
           ]

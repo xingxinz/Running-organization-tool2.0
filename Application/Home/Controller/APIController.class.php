@@ -9,6 +9,43 @@ class APIController extends Controller {
             'appid'=>'wx81f64260178ef961', //填写高级调用功能的app id
             'appsecret'=>'630aad385d1eaa2eef012777ce8f9670' //填写高级调用功能的密钥
         );
+    
+    public function getOauth(string $finalUrl=null){
+        $weObj = new \Org\Com\Wechat($this->options);
+        $url = 'http://'.$_SERVER['SERVER_NAME'].'/index.php/Home/API/getOauth';
+        if($finalUrl != NULL){
+            cookie('finalUrl',$finalUrl);
+        }
+        if(!isset($_GET['code'])){
+            $reurl=$weObj->getOauthRedirect($url,'login');
+            header("Location:".$reurl);
+            die();
+        }
+        $res=$weObj->getOauthAccessToken();
+        $weObj->getOauthRefreshToken($res['refresh_token']);
+        $info=$weObj->getOauthUserinfo($res['access_token'],$res['openid']);
+		
+        session(null);
+        session('wechat_nickname',$info['nickname']);
+        session('wechat_headimgurl',$info['headimgurl']);
+        session('wechat_sex',$info['sex']);
+        session('wechat_openid',$info['unionid']);
+        
+        $data['wechat_openid']=$info['unionid'];
+        $User=M('User');
+        $user_db=$User->where($data)->find();
+        if(!empty($user_db)){
+            session('user_id',$user_db['id']);
+            $User->where($user_db)->setField('face_url',$info['headimgurl']);
+        }
+        
+        $finalUrl=cookie('finalUrl');
+        cookie('finalUrl',NULL);
+        
+        redirect($finalUrl);
+		
+    }
+    
 	public function getActivity(){
 		$table=M('Activity');
 		$list=$table->order('time desc')->select();
@@ -26,8 +63,9 @@ class APIController extends Controller {
 	public function sign(string $openid){
 		$msg_early=array('tooEarly'=>'你签到太早了，作弊可不好哦！','early'=>'你起来的好早，等5点后再来签到吧！');
         $msg_late="07:30后就不能签到了，明天早点起床啊！";
+        $msg_rank="\n<a href='http://joyball.guoxunique.com/index.php/Home/Rank/signRank'>查看早起排行榜</a>";
         $hour=time();
-        
+        $point=0;
         //首先验证是否绑定公众号
         $User=M('User');
         $where['wechat_openid']=$openid;
@@ -43,31 +81,21 @@ class APIController extends Controller {
             $Sign=M('Sign');
             
             $where1['user_id']=$id;
+            session('user_id',$id);	//为了排行榜能随时进去，简单办法
             $lastday=$Sign->where($where1)->order('time desc')->getField('time');   //得到上一次签到时间
 
             if(date('Ymd',strtotime($lastday))==date('Ymd')){   //判断是否签到
-                $msg=array();
-                $msg=array('time'=>date('H:i:s',strtotime($lastday)),
-                           'color'=>'#337ab7',
-                        'days'=>$info[0]['days'],
-                        'keep'=>$info[0]['keepdays'],
-                        'title'=>'你今天已经签过到了！',
-                        'msg'=>'');
+                $signtime=date('H:i:s',strtotime($lastday));
+                $msg="你今天已经签到过了！\n签到时间:$signtime\n连续签到:".$info[0]['keepdays']."天\n累计签到:".$info[0]['days']."天\n累计积分:".$info[0]['point']."分\n".$msg_rank;
                 return $msg;
             }
             
             if($hour<mktime(3)){        //5点至7点半签到
-                return $msg_early['tooEarly'];
-            }else if($hour<mktime(5)){
-                return $msg_early['early'];
+                 return $msg_early['tooEarly'].$msg_rank;
+        	}else if($hour<mktime(5)){
+                return $msg_early['early'].$msg_rank;
             }else if($hour>mktime(7,30)){
-                $msg=array();
-                $msg=array('time'=>"今天未签到",
-                           'color'=>'#ff0000',
-                        'days'=>$info[0]['days'],
-                        'keep'=>$info[0]['keepdays'],
-                       'title'=>"你比施建锋起的还晚，还有脸来签到吗，明天07:30之前就要来签到哦",    
-                        'msg'=>'');
+                $msg="签到失败！\n你起的有点晚哦！明天7点半之前再来签到吧".$msg_rank;
                 return $msg;
             }
             
@@ -76,26 +104,22 @@ class APIController extends Controller {
             $Insertid=$Sign->add($data);        //签到存表
             $info[0]['days']++;                 //签到天数+1
             if(!$lastday || date('Ymd',strtotime($lastday." +1 day"))==date('Ymd')){
-                $info[0]['keepdays']++;     //连续天数+1
+                $info[0]['keepdays']++;     //连续天数+1                
             }else{
-                $info[0]['keepdays']=0;     //连续天数置0
+                $info[0]['keepdays']=1;     //连续天数置1
             }
+            $info[0]['point']+=$info[0]['keepdays']>10?10:$info[0]['keepdays'];
 
             $User->save($info[0]);
 
             $seed=mt_rand(1,120);
             $SignMsg=M('Signmsg');
             $jitang=$SignMsg->where('id='.$seed)->getField('content');
-
-            $msg=array();
-            $msg=array('time'=>date('H:i:s',strtotime($data['time'])),
-                       'color'=>'#337ab7',
-                        'days'=>$info[0]['days'],
-                        'keep'=>$info[0]['keepdays'],
-                       'title'=>'恭喜你签到成功！'.$jitang,     //一日之计在于晨，新的一天要加油啊
-                        'msg'=>'');
-            if($openid == 'oP516v1IfZZV6fbxhzR7nkGR_Wy8'){
-                $msg['title']='施总早上好！'.$jitang;
+            
+			$signtime=date('H:i:s',strtotime($data['time']));
+            $msg="签到成功！\n签到时间:$signtime\n连续签到:".$info[0]['keepdays']."天\n累计签到:".$info[0]['days']."天\n获得积分:".$info[0]['keepdays']."分\n$jitang".$msg_rank;
+            if($openid == 'odIiBwezr2-ZYykL2hrnIdLnp4G0'){
+                $msg="施总早上好！\n签到时间:$signtime\n连续签到:".$info[0]['keepdays']."天\n累计签到:".$info[0]['days']."天\n获得积分:".$info[0]['keepdays']."分\n$jitang".$msg_rank;
             }
 
             return $msg;
@@ -141,7 +165,7 @@ class APIController extends Controller {
     }
     
     private function getinfo(){
-    	$APPID='wx81f64260178ef961';
+    	$APPID=$this->options['appid'];
         $REDIRECT_URI='http://'.$_SERVER['SERVER_NAME'].'/index.php/Home/API/get_user_info';//'http://reserve.sinaapp.com/index.php/Wechat/Show/get_user_info';
         $scope='snsapi_userinfo';//需要授权
         $state='login';
@@ -152,8 +176,8 @@ class APIController extends Controller {
 
     public function get_user_info(){
         $code = $_GET['code'];//获取code
-        $appid='wx81f64260178ef961';
-        $appsecret='630aad385d1eaa2eef012777ce8f9670';
+        $appid=$this->options['appid'];
+        $appsecret=$this->options['appsecret'];
         //通过code换取网页授权access_token
         $weixin =  file_get_contents("https://api.weixin.qq.com/sns/oauth2/access_token?appid=".$appid."&secret=".$appsecret."&code=".$code."&grant_type=authorization_code");
         //对JSON格式的字符串进行编码
@@ -165,19 +189,14 @@ class APIController extends Controller {
         $access_token=$array['access_token'];
 
         // echo $openid;
-        $options = array(
-            'token'=>'weixin', //填写你设定的key
-            'encodingaeskey'=>'6kzmD2pVGSV1HK9vXKpyFKFUviwI02UquFqltWaDqqd', //填写加密用的EncodingAESKey
-            'appid'=>'wx81f64260178ef961', //填写高级调用功能的app id
-            'appsecret'=>'630aad385d1eaa2eef012777ce8f9670' //填写高级调用功能的密钥
-        );
+        $options = $this->options;
 
         $weObj = new \Org\Com\WechatAuth($options['appid'],$options['appsecret'],$access_token);
         $user=$weObj->getUserInfo($openid);
         session('wechat_nickname',$user['nickname']);
         session('wechat_headimgurl',$user['headimgurl']);
         session('wechat_sex',$user['sex']);
-        session('wechat_openid',$user['openid']);
+        session('wechat_openid',$user['unionid']);
 
         $this->redirect('API/bind');
     }
@@ -348,4 +367,23 @@ class APIController extends Controller {
         $res['type']=1;
         $this->ajaxReturn($res);
     }
+    
+    public function changeid(){
+        $User=M('User');
+        $list=$User->select();
+        $weObj = new \Org\Com\Wechat($this->options);
+        $rs=$weObj->checkAuth();
+        foreach($list as $key => $value){
+            $info='';
+            $info=$weObj->getUserInfo($value['wechat_openid']);
+            $User->where('id='.$value['id'])->setField('wechat_openid',$info['unionid']);
+        }
+        echo "success";
+    }
+
+	public function emoji(){
+		$Emoji= new \Org\Com\EmojiSon();
+		$str=$Emoji->getEmoji('\ue047');
+		var_dump($str);
+	}
 }
