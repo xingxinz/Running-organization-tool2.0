@@ -35,9 +35,14 @@
             </th>
             <th class="score"><span class="label label-warning">{$myRecord['days']}天</span></th>
             <th class="score">
-              <if condition="$myRecord['rank'] eq '-1' "><span class="label label-default">尚未签到
-				<else /><span class="label label-success"><php>echo date("H:i:s",strtotime($myRecord['time']));</php>
-				</if>
+              <if condition="$myRecord['rank'] eq '-1' ">
+					<if condition="time() lt strtotime('8:00 am')">
+						<span class="label label-default">尚未签到
+					<else />
+						<span class="label label-danger">早起失败
+					</if>
+			  <else /><span class="label label-success"><php>echo date("H:i:s",strtotime($myRecord['time']));</php>
+			  </if>
 			</span></th>
           </tr>
         </thead>
@@ -67,7 +72,12 @@
               </th>
               <th class="score"><span class="label label-warning">{$vo['days']}天</span></th>
               <th class="score">
-              	<if condition="$vo['time'] eq NULL "><span class="label label-default">尚未签到
+				  <if condition="$vo['time'] eq NULL ">
+					<if condition="time() lt strtotime('8:00 am')">
+						<span class="label label-default">尚未签到
+					<else />
+						<span class="label label-danger">早起失败
+					</if>
 				<else /><span class="label label-success"><php>echo date("H:i:s",strtotime($vo['time']));</php>
 				</if>
 			  </span></th>
