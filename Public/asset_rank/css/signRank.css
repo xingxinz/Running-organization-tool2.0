@@ -1,19 +1,33 @@
-#small-thead{
-	font-size: 12px;
+th {
+  text-align: center!important;
 }
+
+.username {
+  display: block;
+  /*
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  */
+}
+
+#small-thead {
+  font-size: 11px;
+}
+
 #first {
   color: red;
   font-size: 22px;
 }
 
-#second{
-	color: 	#00BFFF;
-	font-size: 20px;
+#second {
+  color: #00BFFF;
+  font-size: 20px;
 }
 
-#third{
-	color: green;
-	font-size: 18px;
+#third {
+  color: green;
+  font-size: 18px;
 }
 
 .cover>img {
@@ -27,7 +41,7 @@
 }
 
 .score {
-  font-size: 17px;
+  font-size: 15px;
 }
 
 tbody>tr>th {
