@@ -62,10 +62,11 @@ class RankController extends Controller {
             }
         }
             
-		$Rank=M('User');
-		$list=$Rank->where('days > 0')->order('point desc,days desc')->select();
-		$myRecord=$Rank->where('id='.session('user_id'))->find();
-
+		$Rank=M('Sign');
+		$User=M('User');
+		$time=strtotime("today");
+		$list=$Rank->where("UNIX_TIMESTAMP(time) > '$time'")->join('JOIN __USER__ ON __SIGN__.user_id=__USER__.id')->order('time')->select();
+		$myRecord=$User->where('tryst_user.id='.session('user_id'))->join('LEFT JOIN __SIGN__ ON __USER__.id=__SIGN__.user_id')->find();
 		foreach($list as $key => $val){ //确定用户排名
 			if($val['id'] == session('user_id')){
 				$myRecord['rank']=$key+1;

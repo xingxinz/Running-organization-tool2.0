@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-  <title>签到排行榜</title>
+  <title>每日签到排行榜</title>
   <!-- 新 Bootstrap 核心 CSS 文件 -->
   <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet" href="__PUBLIC__/asset_rank/css/signRank.css" />
@@ -32,7 +32,12 @@
 				</if>
 			</th>
 			<th class="score"><span class="label label-warning">{$myRecord['days']}天</span></th>
-			<th class="score"><span class="label label-success">{$myRecord['point']}分</span></th>
+			<th class="score">
+				<if condition="$myRecord['rank'] eq -1 "><span class="label label-default">尚未签到
+				<else /><span class="label label-success"><php>echo date("H:i:s",strtotime($myRecord['time']));</php>
+				</if>
+			</span></th>
+			
           </tr>
         </thead>
         <thead id="small-thead">
@@ -59,7 +64,7 @@
 					<text class="username">{$vo['username']}</text>
 				</th>
 				<th class="score"><span class="label label-warning">{$vo['days']}天</span></th>
-				<th class="score"><span class="label label-success">{$vo['point']} pt</span></th>
+				<th class="score"><span class="label label-success"><php>echo date('H:i:s',strtotime($vo['time']));</php></span></th>
 			</tr>
 
 			</foreach>
