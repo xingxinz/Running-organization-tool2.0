@@ -67,8 +67,9 @@ class RankController extends Controller {
 		$time=strtotime("today");
 		$list=$User->join('LEFT JOIN __SIGN__ ON __USER__.id=__SIGN__.user_id AND UNIX_TIMESTAMP(__SIGN__.time) > '.$time)->order('UNIX_TIMESTAMP(time) is null,days desc')->where('days > 0')->select();
 		$myRecord=$User->where('tryst_user.id='.session('user_id'))->join('LEFT JOIN __SIGN__ ON __USER__.id=__SIGN__.user_id')->order('UNIX_TIMESTAMP(time) desc')->find();
+
 		foreach($list as $key => $val){ //确定用户排名
-			if($val['id'] == session('user_id')){
+			if($val['user_id'] == session('user_id')){
 				$myRecord['rank']=$key+1;
 			}
 		}

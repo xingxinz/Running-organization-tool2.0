@@ -35,7 +35,7 @@
             </th>
             <th class="score"><span class="label label-warning">{$myRecord['days']}天</span></th>
             <th class="score">
-              <if condition="$myRecord['rank'] eq -1 "><span class="label label-default">尚未签到
+              <if condition="$myRecord['rank'] eq '-1' "><span class="label label-default">尚未签到
 				<else /><span class="label label-success"><php>echo date("H:i:s",strtotime($myRecord['time']));</php>
 				</if>
 			</span></th>
@@ -67,10 +67,10 @@
               </th>
               <th class="score"><span class="label label-warning">{$vo['days']}天</span></th>
               <th class="score">
-              <if condition="$vo['time'] eq NULL "><span class="label label-default">尚未签到
-				<else /><span class="label label-success"><php>echo date("H:i:s",strtotime($myRecord['time']));</php>
+              	<if condition="$vo['time'] eq NULL "><span class="label label-default">尚未签到
+				<else /><span class="label label-success"><php>echo date("H:i:s",strtotime($vo['time']));</php>
 				</if>
-</span></th>
+			  </span></th>
             </tr>
           </foreach>
         </tbody>
