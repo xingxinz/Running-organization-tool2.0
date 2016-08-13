@@ -39,8 +39,8 @@
           <tr>
 			<th width="10%"></th>
             <th>用户名</th>
-            <th>累计签到</th>
-            <th>积分</th>
+            <th><a class="btn btn-default" href="#" role="button">累计签到</a></th>
+            <th><a class="btn btn-default" href="#" role="button" disabled="disabled">签到时间</a></th>
           </tr>
         </thead>
 		<tbody>
@@ -56,7 +56,7 @@
 				</if>
 				<th>
 					<img src="{$vo['face_url']}" alt="" class="img-circle head">
-					<span>{$vo['username']}</span>
+					<text class="username">{$vo['username']}</text>
 				</th>
 				<th class="score"><span class="label label-warning">{$vo['days']}天</span></th>
 				<th class="score"><span class="label label-success">{$vo['point']} pt</span></th>
