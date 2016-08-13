@@ -63,7 +63,7 @@ class APIController extends Controller {
 	public function sign(string $openid){
 		$msg_early=array('tooEarly'=>'你签到太早了，作弊可不好哦！','early'=>'你起来的好早，等5点后再来签到吧！');
         $msg_late="07:30后就不能签到了，明天早点起床啊！";
-        $msg_rank="\n<a href='http://joyball.guoxunique.com/index.php/Home/Rank/signRank'>查看早起排行榜</a>";
+        $msg_rank="\n<a href='http://joyball.guoxunique.com/index.php/Home/Rank/dailyRank'>查看早起排行榜</a>";
         $hour=time();
         $point=0;
         //首先验证是否绑定公众号

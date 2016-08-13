@@ -66,7 +66,11 @@
                 <text class="username">{$vo['username']}</text>
               </th>
               <th class="score"><span class="label label-warning">{$vo['days']}天</span></th>
-              <th class="score"><span class="label label-success"><php>echo date('H:i:s',strtotime($vo['time']));</php></span></th>
+              <th class="score">
+              <if condition="$vo['time'] eq NULL "><span class="label label-default">尚未签到
+				<else /><span class="label label-success"><php>echo date("H:i:s",strtotime($myRecord['time']));</php>
+				</if>
+</span></th>
             </tr>
           </foreach>
         </tbody>
