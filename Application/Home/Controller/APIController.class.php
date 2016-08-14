@@ -10,11 +10,12 @@ class APIController extends Controller {
             'appsecret'=>'630aad385d1eaa2eef012777ce8f9670' //填写高级调用功能的密钥
         );
     
-    public function getOauth(string $finalUrl=null){
+    public function getOauth(string $finalUrl=null,bool $save=null){
         $weObj = new \Org\Com\Wechat($this->options);
         $url = 'http://'.$_SERVER['SERVER_NAME'].'/index.php/Home/API/getOauth';
         if($finalUrl != NULL){
             cookie('finalUrl',$finalUrl);
+            cookie('save',$save);
         }
         if(!isset($_GET['code'])){
             $reurl=$weObj->getOauthRedirect($url,'login');
@@ -34,13 +35,26 @@ class APIController extends Controller {
         $data['wechat_openid']=$info['unionid'];
         $User=M('User');
         $user_db=$User->where($data)->find();
+       
         if(!empty($user_db)){
             session('user_id',$user_db['id']);
             $User->where($user_db)->setField('face_url',$info['headimgurl']);
+        }else{
+            if(cookie('save') == true){
+                $data['username']=session('wechat_nickname');		//写入数据库
+                $data['sex']=session('wechat_sex');
+                $data['wechat_openid']=session('wechat_openid');
+                $data['count']=substr(md5(session('wechat_openid')),0,10);
+                $data['face_url']=session('wechat_headimgurl');
+				$data['regTime']=time();
+                $res=$User->add($data);
+                
+                session('user_id',$res);
+            }
         }
         
         $finalUrl=cookie('finalUrl');
-        cookie('finalUrl',NULL);
+        cookie(NULL);
         
         redirect($finalUrl);
 		
@@ -145,11 +159,13 @@ class APIController extends Controller {
                 $data['username']=session('wechat_nickname');		//写入数据库
                 $data['sex']=session('wechat_sex');
                 $data['wechat_openid']=session('wechat_openid');
-                $data['count']=substr(md5(session('wechat_openid')),0,5);
+                $data['count']=substr(md5(session('wechat_openid')),0,10);
                 $data['face_url']=session('wechat_headimgurl');
+                $data['regTime']=time();
                 $res=$User->add($data);
                 
                 if($res !== false){
+                    session('user_id',$res);
                     echo "<h1 style=\"font-size:100\">绑定成功</h1>";
                     exit;
                 }
@@ -320,6 +336,7 @@ class APIController extends Controller {
         }
         //var_dump($access_token);
         $url=I('url');
+        $url=urldecode($url);
         //var_dump($url);
         $ticket=S('ticket');
         if(!$ticket){
@@ -368,18 +385,18 @@ class APIController extends Controller {
         $this->ajaxReturn($res);
     }
     
-    public function changeid(){
-        $User=M('User');
-        $list=$User->select();
-        $weObj = new \Org\Com\Wechat($this->options);
-        $rs=$weObj->checkAuth();
-        foreach($list as $key => $value){
-            $info='';
-            $info=$weObj->getUserInfo($value['wechat_openid']);
-            $User->where('id='.$value['id'])->setField('wechat_openid',$info['unionid']);
-        }
-        echo "success";
-    }
+    //public function changeid(){
+    //    $User=M('User');
+    //   $list=$User->select();
+    //    $weObj = new \Org\Com\Wechat($this->options);
+    //    $rs=$weObj->checkAuth();
+    //    foreach($list as $key => $value){
+    //        $info='';
+    //        $info=$weObj->getUserInfo($value['wechat_openid']);
+    //      $User->where('id='.$value['id'])->setField('wechat_openid',$info['unionid']);
+    //  }
+    //  echo "success";
+    //}
 
 	public function emoji(){
 		$Emoji= new \Org\Com\EmojiSon();

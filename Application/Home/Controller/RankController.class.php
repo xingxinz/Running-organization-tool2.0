@@ -20,15 +20,21 @@ class RankController extends Controller {
 	public function signRank(){
         $API=A('API');
         if(!isset($_SESSION['wechat_openid'])){
-            if(!isset($_SESSION['user_id'])){
-                $url = 'http://'.$_SERVER['SERVER_NAME'].'/index.php/Home/Rank/signRank';
-                $API->getOauth($url);
-                die();
-            }else{
-                echo "<h1>尚未绑定微信！</h1>";
-                die();
+            $url = 'http://'.$_SERVER['SERVER_NAME'].'/index.php/Home/Rank/dailyRank';
+            $API->getOauth($url,true);
+            die();
+                
+        }else{
+        	if(!isset($_SESSION['user_id'])){
+                $User=M('User');
+                $userinfo=$User->where('wechat_openid='.session('wechat_openid'))->find();
+                if(!$userinfo){
+                    echo "<h1>尚未绑定微信！</h1>";
+                    die();
+                }else{
+                    session('user_id',$info['id']);
+                }
             }
-        }
             
 		$Rank=M('User');
 		$list=$Rank->where('days > 0')->order('point desc,days desc')->select();
@@ -46,40 +52,51 @@ class RankController extends Controller {
 		$this->assign('list',$list);
 
 		$this->display();
+        }
 	}
 	
 	public function dailyRank(){
         $API=A('API');
 		
         if(!isset($_SESSION['wechat_openid'])){
-            if(!isset($_SESSION['user_id'])){
-                $url = 'http://'.$_SERVER['SERVER_NAME'].'/index.php/Home/Rank/dailyRank';
-                $API->getOauth($url);
-                die();
-            }else{
-                echo "<h1>尚未绑定微信！</h1>";
-                die();
+            $url = 'http://'.$_SERVER['SERVER_NAME'].'/index.php/Home/Rank/dailyRank';
+            $API->getOauth($url);
+            die();
+                
+        }else{
+        	if(!isset($_SESSION['user_id'])){
+                //die();
+                
+                $User=M('User');
+                $userinfo=$User->where('wechat_openid="'.session('wechat_openid').'"')->find();
+                
+                if(empty($userinfo)){
+                    echo "<h1>尚未绑定微信！</h1>";
+                    session(null);
+                    die();
+                }else{
+                    session('user_id',$userinfo['id']);
+                }
             }
+            $Rank=M('Sign');
+            $User=M('User');
+            $time=strtotime("today");
+            $list=$User->join('LEFT JOIN __SIGN__ ON __USER__.id=__SIGN__.user_id AND UNIX_TIMESTAMP(__SIGN__.time) > '.$time)->where('days > 0')->order('-(UNIX_TIMESTAMP(time)) desc,days desc')->select();
+            $myRecord=$User->where('tryst_user.id='.session('user_id'))->join('LEFT JOIN __SIGN__ ON __USER__.id=__SIGN__.user_id')->order('UNIX_TIMESTAMP(time) desc')->find();
+    
+            foreach($list as $key => $val){ //确定用户排名
+                if($val['user_id'] == session('user_id')){
+                    $myRecord['rank']=$key+1;
+                }
+            }
+            if($myRecord['rank']==null){
+                $myRecord['rank']=-1;
+            }
+            $this->assign('myRecord',$myRecord);
+            $this->assign('list',$list);
+    
+            $this->display();
         }
-            
-		$Rank=M('Sign');
-		$User=M('User');
-		$time=strtotime("today");
-		$list=$User->join('LEFT JOIN __SIGN__ ON __USER__.id=__SIGN__.user_id AND UNIX_TIMESTAMP(__SIGN__.time) > '.$time)->order('UNIX_TIMESTAMP(time) is null,days desc')->where('days > 0')->select();
-		$myRecord=$User->where('tryst_user.id='.session('user_id'))->join('LEFT JOIN __SIGN__ ON __USER__.id=__SIGN__.user_id')->order('UNIX_TIMESTAMP(time) desc')->find();
-
-		foreach($list as $key => $val){ //确定用户排名
-			if($val['user_id'] == session('user_id')){
-				$myRecord['rank']=$key+1;
-			}
-		}
-		if($myRecord['rank']==null){
-			$myRecord['rank']=-1;
-		}
-		$this->assign('myRecord',$myRecord);
-		$this->assign('list',$list);
-
-		$this->display();
 	}
 
 }
