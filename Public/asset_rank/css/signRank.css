@@ -11,15 +11,17 @@ th {
   */
 }
 
-#small-thead {
-  font-size: 11px;
+.small-head {
+  font-size: 10px!important;
 }
 
 #first {
   color: red;
   font-size: 22px;
 }
-
+.table>thead>tr>th{
+  padding: 2px;
+}
 #second {
   color: #00BFFF;
   font-size: 20px;
@@ -32,6 +34,7 @@ th {
 
 .cover>img {
   z-index: -1;
+  width: 100%;
 }
 
 .head {
