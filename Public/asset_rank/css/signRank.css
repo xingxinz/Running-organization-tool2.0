@@ -1,7 +1,9 @@
 th {
   text-align: center!important;
 }
-
+.table>thead>tr>th{
+  padding: 4px;
+}
 .username {
   display: block;
   /*
@@ -10,9 +12,13 @@ th {
   text-overflow: ellipsis;
   */
 }
-
-#small-thead {
-  font-size: 11px;
+#center-tab{
+  width: 275px;
+  margin: 0 auto;
+  display: block;
+}
+#small-head {
+  font-size: 10px!important;
 }
 
 #first {
@@ -32,6 +38,7 @@ th {
 
 .cover>img {
   z-index: -1;
+  width: 100%;
 }
 
 .head {
