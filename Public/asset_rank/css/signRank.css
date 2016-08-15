@@ -12,6 +12,11 @@ th {
   text-overflow: ellipsis;
   */
 }
+#qrcode{
+  width: 100px;
+  margin: 0 auto;
+  text-align: center;
+}
 #center-tab{
   width: 275px;
   margin: 0 auto;
