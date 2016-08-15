@@ -1,0 +1,47 @@
+.hdl{
+	font-family: "黑体";
+	text-align: center;
+}
+.hdl1{
+	font-family: "黑体";
+}
+.phg{
+	text-align: center;
+}
+body{
+	background-image: url(../img/bg.png);
+	background-attachment:fixed;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+.row{
+	position: absolute;
+	left: 5%;
+	top: 2%;
+	right: 5%;
+}
+.col-3{
+	background-color: #00BBFF;
+	opacity: 0.8;
+    margin: 5%;
+    padding-top: 1px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	font-family: "幼圆";
+	color: white;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+.sp{
+	font-family: Georgia;
+}
+.col-2{
+	background:yellow;
+	text-align: center;
+	margin: 5%;
+	font-size: 20px;
+	padding-top: 5px;
+	padding-bottom: 1px;
+	font-family: "幼圆";
+}
+

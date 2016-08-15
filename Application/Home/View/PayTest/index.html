@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+   <meta name="format-detection" content="telephone=no">
+   <title>趣健跑</title>
+   <link rel="stylesheet" type="text/css" href="__PUBLIC__/asset_pay/css/bonus.css">
+   <!--<link rel="stylesheet" href="bootstrap_demo/dist/css/bootstrap.min.css"/>-->
+ </head>
+ <body>
+    
+ 	<!-- Stack the columns on mobile by making one full-width and the other half-width -->
+    <div class="row">
+      <div class="col-3">
+        <h1 class="hdl">
+ 			<span class="sp">21</span>天<br>养成一个好习惯
+ 		</h1>
+ 		<p class="phg">
+ 			趣健跑打卡奖励正式启动！现在只要支付15元，连续早起打卡21天，便可获得25元微信现金红包！早睡早起身体好，让我们一起加油！
+ 		</p>
+      </div>
+     <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
+      <div class="col-3">
+  	    <h2 class="hdl1">
+        	活动细则：
+        </h2>
+        <p>
+ 			1.从支付之日起第二天，连续在公众号早起打卡21天即可获得奖励。中间有中断即挑战失败。
+ 		</p>
+ 		<p>
+ 			2.早起打卡时间5:00-7:30
+ 		</p>
+ 		<p>
+ 			3.本活动最终解释权归趣健跑所有
+ 		</p>
+      </div>
+   
+     <div class="col-2">
+      <a onclick="callpay()">
+      <p>
+        加入挑战
+      </p></a>
+     </div>
+    </div>
+ </body>
+
+ <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+ <script type="text/javascript">
+	 //调用微信JS api 支付
+	 function jsApiCall()
+	 {
+		 WeixinJSBridge.invoke(
+			 'getBrandWCPayRequest',
+			 <?php echo $jsApiParameters; ?>,
+			 function(res){
+				 WeixinJSBridge.log(res.err_msg);
+             alert(res.err_code+res.err_desc+res.err_msg);
+			 }
+		 );
+	 }
+
+	 function callpay()
+	 {
+         var domain = document.domain;
+         var toUrl = 'http://' + domain + "/index.php/Home/API/"; //接口地址
+         
+         $.ajax({
+                cache: false,
+                type: "POST",
+                url: toUrl + "checkSign",
+                dataType: "json",
+                data: <?php echo $user; ?>,
+                timeout: 30000,
+        
+                error: function(e){
+             	  console.log(e);
+                  alert("系统错误");
+                },
+                success: function(data){
+                  console.log(data);
+                     if(data['code'] == 0){
+                         alret('您已参与该活动！');
+                     }else if (data['code'] == 2){
+                         alret('您被禁止参与该活动！');    
+                     }else if (data['code'] == 1){
+                         if (typeof WeixinJSBridge == "undefined"){
+                         	 if( document.addEventListener ){
+                         		 document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+                             }else if (document.attachEvent){
+                         		 document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
+                         		 document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+                         	 }
+                         }else{
+                             	 jsApiCall();
+                         }
+                     }else{
+                         alret('无法参与，请联系管理员！');  
+                     }
+                }
+  		});
+         
+	 }
+ </script>
+
+</html>
