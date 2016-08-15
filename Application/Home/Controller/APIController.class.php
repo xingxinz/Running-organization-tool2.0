@@ -15,6 +15,8 @@ class APIController extends Controller {
         $url = 'http://'.$_SERVER['SERVER_NAME'].'/index.php/Home/API/getOauth';
         if($finalUrl != NULL){
             cookie('finalUrl',$finalUrl);
+        }
+        if($save != NULL){
             cookie('save',$save);
         }
         if(!isset($_GET['code'])){
@@ -30,7 +32,7 @@ class APIController extends Controller {
         session('wechat_nickname',$info['nickname']);
         session('wechat_headimgurl',$info['headimgurl']);
         session('wechat_sex',$info['sex']);
-        session('wechat_openid',$info['unionid']);
+        session('wechat_openid',$info['unionid']);			//使用unionid
         
         $data['wechat_openid']=$info['unionid'];
         $User=M('User');
@@ -38,7 +40,7 @@ class APIController extends Controller {
        
         if(!empty($user_db)){
             session('user_id',$user_db['id']);
-            $User->where($user_db)->setField('face_url',$info['headimgurl']);
+            $User->where($user_db)->setField('face_url',$info['headimgurl']);	//更新头像
         }else{
             if(cookie('save') == true){
                 $data['username']=session('wechat_nickname');		//写入数据库
@@ -154,7 +156,7 @@ class APIController extends Controller {
         	exit();
         }else{
             $where['wechat_openid']=session('wechat_openid');
-        	$info=$User->where($where)->select();
+        	$info=$User->where($where)->find();
             if(empty($info)){
                 $data['username']=session('wechat_nickname');		//写入数据库
                 $data['sex']=session('wechat_sex');
@@ -174,6 +176,7 @@ class APIController extends Controller {
                     exit;
                 }
             }else{
+                session('user_id',$info['id']);
                 echo "<h1 style=\"font-size:100\">您已绑定公众号</h1>";
                 exit;
             }
@@ -397,10 +400,46 @@ class APIController extends Controller {
     //  }
     //  echo "success";
     //}
-
-	public function emoji(){
-		$Emoji= new \Org\Com\EmojiSon();
-		$str=$Emoji->getEmoji('\ue047');
-		var_dump($str);
-	}
+	
+    
+    //获取用户参与签到排行信息
+    //@return 0已存在,1可以参与，2禁止参与
+    public function checkSign(){
+        $Pay=M('Signpay');
+        $User=M('User');
+        
+        $openid=I('openid');			//获取用户详细信息
+        $token=I('access_token');
+        $url='https://api.weixin.qq.com/sns/userinfo?access_token='.$token.'&openid='.$openid.'&lang=zh_CN';  
+		$html = file_get_contents($url);
+        $info = json_decode($html,true);
+        
+        $user=$User->where("wechat_openid='".$info['unionid']."'")->find();
+        
+        if(empty($user)){	//为空储存用户信息，待支付后加入数据库
+            session('wechat_nickname',$info['nickname']);
+            session('wechat_headimgurl',$info['headimgurl']);
+            session('wechat_sex',$info['sex']);
+            session('wechat_openid',$info['unionid']);
+            
+            $data['code']=1;
+            $this->ajaxreturn($data);
+        }else{			//检查是否参与
+            session('user_id',$user['id']);
+            $join=$Pay->where('user_id='.$user['id'])->find();
+            if(empty($join)){
+                $data['code']=1;
+            	$this->ajaxreturn($data);
+            }else{
+                if($join['state']== 0){
+                    $data['code']=0;
+            		$this->ajaxreturn($data);
+                }else{
+                    $data['code']=2;
+            		$this->ajaxreturn($data);
+                }
+            }
+        }
+            
+    }
 }

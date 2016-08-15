@@ -20,6 +20,7 @@ define('ENGINE_NAME','sae');
 
 //生成Admin模块
 //define('BIND_MODULE','Home');
+//define('BUILD_CONTROLLER_LIST','Pay,PayTest'); 
 
 // 定义应用目录
 define('APP_PATH','./Application/');

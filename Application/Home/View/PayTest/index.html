@@ -38,8 +38,10 @@
    
      <div class="col-2">
       <a onclick="callpay()">
-      <p>
-        加入挑战
+      <p id="button">
+        <if condition="$paid eq NULL">加入挑战
+            <else />您已连续签到{$days}天
+        </if>
       </p></a>
      </div>
     </div>
@@ -55,7 +57,10 @@
 			 <?php echo $jsApiParameters; ?>,
 			 function(res){
 				 WeixinJSBridge.log(res.err_msg);
-             alert(res.err_code+res.err_desc+res.err_msg);
+             //alert(res.err_code+res.err_desc+res.err_msg);
+                 if(res.err_msg == "ok"){
+                     $("#button").text("加入成功，要加油哦！");
+                 }
 			 }
 		 );
 	 }
@@ -80,9 +85,9 @@
                 success: function(data){
                   console.log(data);
                      if(data['code'] == 0){
-                         alret('您已参与该活动！');
+                         alert('您已参与该活动！');
                      }else if (data['code'] == 2){
-                         alret('您被禁止参与该活动！');    
+                         alert('您被禁止参与该活动！');    
                      }else if (data['code'] == 1){
                          if (typeof WeixinJSBridge == "undefined"){
                          	 if( document.addEventListener ){
