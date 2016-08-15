@@ -16,56 +16,61 @@
   </div>
   <div class="btn-group" data-toggle="buttons" id="center-tab">
     <label class="btn btn-default">
-      <input type="radio" name="options" id="option1" autocomplete="off"> 累计签到天数排行
+		<a href="__APP__/Home/Rank/signRank"><input type="radio" name="options" id="option1" autocomplete="off" > 累计签到天数排行</a>
     </label>
     <label class="btn btn-default active">
-      <input type="radio" name="options" id="option2" autocomplete="off"> 今日签到时间排行
+        <input type="radio" name="options" id="option2" autocomplete="off"> 今日签到时间排行
     </label>
   </div>
   <div class="panel panel-default">
     <div class="panel-body">
       <table class="table">
         <thead>
-          <tr>
-            <th class="score">
-              <if condition="$myRecord['rank'] neq '-1'">
-                <if condition="$myRecord['rank'] eq 1">
-                  <span class="label label-success">第{$myRecord['rank']}名</span>
-                  <elseif condition="$myRecord['rank'] eq 2" />
-                  <span class="label label-info">第{$myRecord['rank']}名</span>
-                  <elseif condition="$myRecord['rank'] eq 3" />
-                  <span class="label label-info">第{$myRecord['rank']}名</span>
-                  <else/>
-                  <span class="label label-primary">第{$myRecord['rank']}名</span>
-                </if>
-                <else/><span class="label label-default">尚无名次</span>
-              </if>
-            </th>
-            <th>
-              <img src="{$myRecord['face_url']}" alt="" class="img-circle head">
-              <text class="username" id="myName" data="{$myRecord[username]}">我</text>
-            </th>
-            <th class="score">
-              <span class="label label-warning" id="myDays">{$myRecord['days']}1天</span>
-            </th>
-            <th class="score">
-              <if condition="$myRecord['rank'] eq '-1' ">
-                <if condition="time() lt strtotime('8:00 am')">
-                  <span class="label label-default">尚未签到</span>
-                  <else />
-                  <span class="label label-danger">早起失败</span>
-                </if>
-                <else />
-                <span class="label label-success" id="myTime"><php>echo date("H:i:s",strtotime($myRecord['time']));</php></span>
-              </if>
-            </th>
-          </tr>
-          <!-- 如果是未关注的人，用注释部分代替上面的tr标签
-          <div id="qrcode">
-            <img src="__PUBLIC__/asset_rank/img/qrcode.bmp" alt="QRcode" class="img-thumbnail">
-            <span>关注“趣健跑”,马上早起签到！</span>
-          </div>
-          -->
+			<switch name="myRecord.days">
+				<case value="0">
+				<div id="qrcode">
+					<img src="__PUBLIC__/asset_rank/img/qrcode.bmp" alt="QRcode" class="img-thumbnail">
+					<span>关注“趣健跑”,马上早起签到！</span>
+				</div>
+				</case>
+				<default />
+				<tr>
+					<th class="score">
+						<if condition="$myRecord['rank'] neq '-1'">
+						<if condition="$myRecord['rank'] eq 1">
+						<span class="label label-success">第{$myRecord['rank']}名</span>
+						<elseif condition="$myRecord['rank'] eq 2" />
+						<span class="label label-info">第{$myRecord['rank']}名</span>
+						<elseif condition="$myRecord['rank'] eq 3" />
+						<span class="label label-info">第{$myRecord['rank']}名</span>
+						<else />
+						<span class="label label-primary">第{$myRecord['rank']}名</span>
+						</if>
+						<else /><span class="label label-default">尚无名次</span>
+						</if>
+					</th>
+					<th>
+						<img src="{$myRecord['face_url']}" alt="" class="img-circle head">
+						<text class="username" id="myName" data="{$myRecord[username]}">我</text>
+					</th>
+					<th class="score">
+						<span class="label label-warning" id="myDays">{$myRecord['days']}天</span>
+					</th>
+					<th class="score">
+						<if condition="$myRecord['rank'] eq -1">
+						<if condition="time() lt strtotime('8:00 am')">
+						<span class="label label-default">尚未签到</span>
+						<else />
+						<span class="label label-danger">早起失败</span>
+						</if>
+						<else />
+						<span class="label label-success" id="myTime"><php>echo date("H:i:s",strtotime($myRecord['time']));</php></span>
+						</if>
+					</th>
+				</tr>
+			</switch>
+			
+
         </thead>
         <thead>
           <tr id="small-head">
