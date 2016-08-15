@@ -14,6 +14,14 @@
   <div class="cover">
     <img src="http://file05.16sucai.com/2015/0609/a93f33d7f2341d86db21a45b831a6660.jpg" alt="" class="img-responsive">
   </div>
+  <div class="btn-group" data-toggle="buttons" id="center-tab">
+    <label class="btn btn-default">
+      <input type="radio" name="options" id="option1" autocomplete="off"> 累计签到天数排行
+    </label>
+    <label class="btn btn-default active">
+      <input type="radio" name="options" id="option2" autocomplete="off"> 今日签到时间排行
+    </label>
+  </div>
   <div class="panel panel-default">
     <div class="panel-body">
       <table class="table">
@@ -21,12 +29,16 @@
           <tr>
             <th class="score">
               <if condition="$myRecord['rank'] neq '-1'">
-                <if condition="$myRecord['rank'] eq 1"><span class="label label-success">第{$myRecord['rank']}名</span>
-                  <elseif condition="$myRecord['rank'] eq 2" /><span class="label label-info">第{$myRecord['rank']}名</span>
-                  <elseif condition="$myRecord['rank'] eq 3" /><span class="label label-info">第{$myRecord['rank']}名</span>
-                  <else/><span class="label label-primary">第{$myRecord['rank']}名</span>
+                <if condition="$myRecord['rank'] eq 1">
+                  <span class="label label-success">第{$myRecord['rank']}名</span>
+                  <elseif condition="$myRecord['rank'] eq 2" />
+                  <span class="label label-info">第{$myRecord['rank']}名</span>
+                  <elseif condition="$myRecord['rank'] eq 3" />
+                  <span class="label label-info">第{$myRecord['rank']}名</span>
+                  <else/>
+                  <span class="label label-primary">第{$myRecord['rank']}名</span>
                 </if>
-                <else/> <span class="label label-default">尚无名次</span>
+                <else/><span class="label label-default">尚无名次</span>
               </if>
             </th>
             <th>
@@ -34,7 +46,7 @@
               <text class="username" id="myName" data="{$myRecord[username]}">我</text>
             </th>
             <th class="score">
-              <span class="label label-warning" id="myDays">{$myRecord['days']}天</span>
+              <span class="label label-warning" id="myDays">{$myRecord['days']}1天</span>
             </th>
             <th class="score">
               <if condition="$myRecord['rank'] eq '-1' ">
@@ -50,56 +62,41 @@
           </tr>
         </thead>
         <thead>
-          <tr>
-            <th>
-              <button type="button" class="small-head btn btn-default">
-                <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Rank
-              </button>
-            </th>
-            <th>
-              <button type="button" class="small-head btn btn-default">
-                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> User
-              </button>
-            </th>
-            <th>
-              <button type="button" class="small-head btn btn-default">
-                <span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Total
-              </button>
-            </th>
-            <th>
-              <button type="button" class="small-head btn btn-default">
-                <span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Today
-              </button>
-            </th>
+          <tr id="small-head">
+            <th>排名</th>
+            <th>用户名</th>
+            <th>累计签到</th>
+            <th>今日签到</th>
           </tr>
         </thead>
         <tbody>
-          <foreach name="list" item="vo">
+          <foreach name="list " item="vo ">
             <tr>
-              <if condition="$key eq 0">
-                <th id="first"><i>{$key+1}</i></th>
-                <elseif condition="$key eq 1" />
-                <th id="second"><i>{$key+1}</i></th>
-                <elseif condition="$key eq 2" />
-                <th id="third"><i>{$key+1}</i></th>
+              <if condition="$key eq 0 ">
+                <th id="first "><i>{$key+1}</i></th>
+                <elseif condition="$key eq 1 " />
+                <th id="second "><i>{$key+1}</i></th>
+                <elseif condition="$key eq 2 " />
+                <th id="third "><i>{$key+1}</i></th>
                 <else/>
                 <th>{$key+1}</th>
               </if>
               <th>
-                <img src="{$vo['face_url']}" alt="" class="img-circle head">
-                <text class="username">{$vo['username']}</text>
+                <img src="{$vo[ 'face_url']} " alt=" " class="img-circle head ">
+                <text class="username ">{$vo['username']}</text>
               </th>
-              <th class="score"><span class="label label-warning">{$vo['days']}天</span></th>
-              <th class="score">
-                <if condition="$vo['time'] eq NULL ">
-                  <if condition="time() lt strtotime('8:00 am')">
-                    <span class="label label-default">尚未签到
-          <else />
-            <span class="label label-danger">早起失败
-          </if>
-        <else /><span class="label label-success"><php>echo date("H:i:s",strtotime($vo['time']));</php>
-        </if>
-        </span></th>
+              <th class="score "><span class="label label-warning ">{$vo['days']}天</span></th>
+              <th class="score ">
+                <if condition="$vo[ 'time'] eq NULL ">
+                  <if condition="time() lt strtotime( '8:00 am') ">
+                    <span class="label label-default ">尚未签到</span>
+                    <else />
+                    <span class="label label-danger ">早起失败</span>
+                  </if>
+                  <else />
+                  <span class="label label-success "><php>echo date("H:i:s ",strtotime($vo['time']));</php></span>
+                </if>
+              </th>
             </tr>
           </foreach>
         </tbody>
@@ -108,10 +105,10 @@
   </div>
 </body>
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js "></script>
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-<script src="__PUBLIC__/asset_rank/js/WxJS.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js "></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js "></script>
+<script src="__PUBLIC__/asset_rank/js/WxJS.js "></script>
 
 </html>

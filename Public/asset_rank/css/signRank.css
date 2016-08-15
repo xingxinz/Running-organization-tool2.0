@@ -1,7 +1,9 @@
 th {
   text-align: center!important;
 }
-
+.table>thead>tr>th{
+  padding: 4px;
+}
 .username {
   display: block;
   /*
@@ -10,8 +12,12 @@ th {
   text-overflow: ellipsis;
   */
 }
-
-.small-head {
+#center-tab{
+  width: 275px;
+  margin: 0 auto;
+  display: block;
+}
+#small-head {
   font-size: 10px!important;
 }
 
@@ -19,9 +25,7 @@ th {
   color: red;
   font-size: 22px;
 }
-.table>thead>tr>th{
-  padding: 2px;
-}
+
 #second {
   color: #00BFFF;
   font-size: 20px;
