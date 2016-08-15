@@ -40,8 +40,8 @@ class TokenController extends Controller {
                     $text=$msg->getRevContent();
                     if($text=='GuoxUnique'){
                         $weObj->text("http://joyball.guoxunique.com")->reply();
-                    }else if($text=='oauth'){
-                        $weObj->text('http://'.$_SERVER['SERVER_NAME'].'/index.php/Home/API/getOauth')->reply();
+                    }else if($text=='pay'){
+                        $weObj->text('http://'.$_SERVER['SERVER_NAME'].'/index.php/Home/PayTest/index')->reply();
                     }
                     exit;
                     break;

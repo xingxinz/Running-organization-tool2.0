@@ -1,2 +1,5 @@
 Runtime
 config.php
+svn-*
+Public/cert
+.*

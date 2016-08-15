@@ -60,7 +60,7 @@ class RankController extends Controller {
 		
         if(!isset($_SESSION['wechat_openid'])){
             $url = 'http://'.$_SERVER['SERVER_NAME'].'/index.php/Home/Rank/dailyRank';
-            $API->getOauth($url);
+            $API->getOauth($url,true);
             die();
                 
         }else{

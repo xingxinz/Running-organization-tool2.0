@@ -44,8 +44,8 @@ console.log(my);
   // 在这里调用 API
     wx.onMenuShareTimeline({
       title: my['name']+' 今天'+my['time']+'早起签到,已经坚持'+my['days']+',约你来早起,敢吗', // 分享标题
-      link: objectModel['url'], // 分享链接
-      imgUrl:'' , // 分享图标
+      link: decodeURIComponent(objectModel['url']), // 分享链接
+      imgUrl:'http://o6fy6cx7i.bkt.clouddn.com/funhealtyrun.jpg' , // 分享图标
       success: function () { 
         alert('分享成功');
       },
@@ -56,8 +56,8 @@ console.log(my);
     wx.onMenuShareAppMessage({
       title: my['name']+' 今天'+my['time']+'早起签到,已经坚持'+my['days']+',约你来早起,敢吗', // 分享标题
       desc: '趣键跑每日签到排名', // 分享描述
-      link: objectModel['url'],
-      imgUrl:'' ,// 分享图标
+      link: decodeURIComponent(objectModel['url']),
+      imgUrl:'http://o6fy6cx7i.bkt.clouddn.com/funhealtyrun.jpg' ,// 分享图标
       success: function () { 
       	alert('分享成功');// 用户确认分享后执行的回调函数
       },

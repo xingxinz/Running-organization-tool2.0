@@ -55,7 +55,7 @@ class CreatButtonController extends Controller {
 			"sub_button":[
             	{
 					"type":"click",
-					"name":"打卡签到",
+					"name":"早起签到",
 					"key":"V1001_SIGN"
 				},
 				{
