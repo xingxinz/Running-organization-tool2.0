@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-  <title>每日签到排行榜</title>
+  <title>今日签到排行</title>
   <!-- 新 Bootstrap 核心 CSS 文件 -->
   <link rel="stylesheet" href="__PUBLIC__/bootstrap-3.3.5-dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="__PUBLIC__/asset_rank/css/signRank.css" />
@@ -13,10 +13,6 @@
 <body>
   <div class="cover">
     <img src="__PUBLIC__/asset_rank/img/cover.jpg" alt="cover" class="img-responsive">
-  </div>
-  <div class="btn-group" data-toggle="buttons" id="center-tab">
-    <a href="__APP__/Home/Rank/signrank" class="btn btn-default">累计签到天数排行</a>
-    <a class="btn btn-default active"> 今日签到时间排行</a>
   </div>
   <div class="panel panel-default">
     <div class="panel-body">
@@ -50,7 +46,7 @@
                 <text class="username" id="myName" data="{$myRecord[username]}">我</text>
               </th>
               <th class="score">
-                <span class="label label-warning" id="myDays">{$myRecord['days']}天</span>
+                <span class="label label-warning" id="myDays">{$myRecord['days']} 天</span>
               </th>
               <th class="score">
                 <if condition="$myRecord['rank'] eq -1">
@@ -70,8 +66,8 @@
           <tr id="small-head">
             <th>排名</th>
             <th>用户名</th>
-            <th>累计签到</th>
-            <th>今日签到</th>
+            <th><a href="__APP__/Home/Rank/signrank">累计签到<img src="__PUBLIC__/asset_rank/img/triangle_up_fill.svg" alt=""></a></th>
+            <th>今日签到<img src="__PUBLIC__/asset_rank/img/triangle_down_fill.svg" alt=""></th>
           </tr>
         </thead>
         <tbody>
@@ -90,7 +86,7 @@
                 <img src="{$vo[ 'face_url']} " alt=" " class="img-circle head ">
                 <text class="username ">{$vo['username']}</text>
               </th>
-              <th class="score "><span class="label label-warning ">{$vo['days']}天</span></th>
+              <th class="score "><span class="label label-warning ">{$vo['days']} 天</span></th>
               <th class="score ">
                 <if condition="$vo[ 'time'] eq NULL ">
                   <if condition="time() lt strtotime( '8:00 am') ">
@@ -110,9 +106,9 @@
   </div>
 </body>
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js "></script>
+<!-- <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js "></script> -->
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-<script src="__PUBLIC__/bootstrap-3.3.5-dist/js/bootstrap.min.js "></script>
+<!-- <script src="__PUBLIC__/bootstrap-3.3.5-dist/js/bootstrap.min.js "></script> -->
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js "></script>
 <script src="__PUBLIC__/asset_rank/js/WxJS.js "></script>
 

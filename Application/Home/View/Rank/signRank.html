@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-  <title>签到排行榜</title>
+  <title>累积签到排行</title>
   <!-- 新 Bootstrap 核心 CSS 文件 -->
   <link rel="stylesheet" href="__PUBLIC__/bootstrap-3.3.5-dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="__PUBLIC__/asset_rank/css/signRank.css" />
@@ -12,59 +12,92 @@
 
 <body>
   <div class="cover">
-    <img src="http://file05.16sucai.com/2015/0609/a93f33d7f2341d86db21a45b831a6660.jpg" alt="" class="img-responsive">
-  </div>
-  <div class="btn-group" data-toggle="buttons" id="center-tab">
-    <a class="btn btn-default active">累计签到天数排行</a>
-    <a href="__APP__/Home/Rank/dailyRank.html" class="btn btn-default"> 今日签到时间排行</a>
+    <img src="__PUBLIC__/asset_rank/img/cover.jpg" alt="cover" class="img-responsive">
   </div>
   <div class="panel panel-default">
     <div class="panel-body">
-      <table class="table table-striped">
+      <table class="table">
         <thead>
-          <tr>
-            <th>我</th>
-            <th>
-              <img src="{$myRecord['face_url']}" alt="" class="img-circle head">
-              <if condition="$myRecord['rank'] neq '-1'">
-                <if condition="$myRecord['rank'] eq 1"><span class="label label-success">第{$myRecord['rank']}名</span>
-                  <elseif condition="$myRecord['rank'] eq 2" /><span class="label label-info">第{$myRecord['rank']}名</span>
-                  <elseif condition="$myRecord['rank'] eq 3" /><span class="label label-info">第{$myRecord['rank']}名</span>
-                  <else/><span class="label label-primary">第{$myRecord['rank']}名</span>
+          <switch name="myRecord.days">
+            <case value="0">
+              <div id="qrcode">
+                <img src="__PUBLIC__/asset_rank/img/qrcode.bmp" alt="QRcode" class="img-thumbnail">
+                <span>关注“趣健跑”,马上早起签到！</span>
+              </div>
+            </case>
+            <default />
+            <tr>
+              <th class="score">
+                <if condition="$myRecord['rank'] neq '-1'">
+                  <if condition="$myRecord['rank'] eq 1">
+                    <span class="label label-success">第{$myRecord['rank']}名</span>
+                    <elseif condition="$myRecord['rank'] eq 2" />
+                    <span class="label label-info">第{$myRecord['rank']}名</span>
+                    <elseif condition="$myRecord['rank'] eq 3" />
+                    <span class="label label-info">第{$myRecord['rank']}名</span>
+                    <else />
+                    <span class="label label-primary">第{$myRecord['rank']}名</span>
+                  </if>
+                  <else /><span class="label label-default">尚无名次</span>
                 </if>
-                <else/> <span class="label label-default">尚无名次</span>
-              </if>
-            </th>
-            <th class="score"><span class="label label-warning">{$myRecord['days']}天</span></th>
-            <th class="score"><span class="label label-success">{$myRecord['point']}分</span></th>
-          </tr>
+              </th>
+              <th>
+                <img src="{$myRecord['face_url']}" alt="" class="img-circle head">
+                <text class="username" id="myName" data="{$myRecord[username]}">我</text>
+              </th>
+              <th class="score">
+                <span class="label label-warning" id="myDays">{$myRecord['days']} 天</span>
+              </th>
+              <th class="score">
+                <if condition="$myRecord['rank'] eq -1">
+                  <if condition="time() lt strtotime('8:00 am')">
+                    <span class="label label-default">尚未签到</span>
+                    <else />
+                    <span class="label label-danger">早起失败</span>
+                  </if>
+                  <else />
+                  <span class="label label-success" id="myTime"><php>echo date("H:i:s",strtotime($myRecord['time']));</php></span>
+                </if>
+              </th>
+            </tr>
+          </switch>
         </thead>
-        <thead id="small-thead">
-          <tr>
-            <th width="10%"></th>
+        <thead>
+          <tr id="small-head">
+            <th>排名</th>
             <th>用户名</th>
-            <th>累计签到</th>
-            <th>积分</th>
+            <th>累计签到<img src="__PUBLIC__/asset_rank/img/triangle_down_fill.svg" alt=""</th>
+            <th><a href="__APP__/Home/Rank/dailyrank">今日签到<img src="__PUBLIC__/asset_rank/img/triangle_up_fill.svg" alt=""></a></th>
           </tr>
         </thead>
         <tbody>
-          <foreach name="list" item="vo">
+          <foreach name="list " item="vo ">
             <tr>
-              <if condition="$key eq 0">
-                <th id="first"><i>{$key+1}</i></th>
-                <elseif condition="$key eq 1" />
-                <th id="second"><i>{$key+1}</i></th>
-                <elseif condition="$key eq 2" />
-                <th id="third"><i>{$key+1}</i></th>
+              <if condition="$key eq 0 ">
+                <th id="first "><i>{$key+1}</i></th>
+                <elseif condition="$key eq 1 " />
+                <th id="second "><i>{$key+1}</i></th>
+                <elseif condition="$key eq 2 " />
+                <th id="third "><i>{$key+1}</i></th>
                 <else/>
                 <th>{$key+1}</th>
               </if>
               <th>
-                <img src="{$vo['face_url']}" alt="" class="img-circle head">
-                <span>{$vo['username']}</span>
+                <img src="{$vo[ 'face_url']} " alt=" " class="img-circle head ">
+                <text class="username ">{$vo['username']}</text>
               </th>
-              <th class="score"><span class="label label-warning">{$vo['days']}天</span></th>
-              <th class="score"><span class="label label-success">{$vo['point']} pt</span></th>
+              <th class="score "><span class="label label-warning ">{$vo['days']} 天</span></th>
+              <th class="score ">
+                <if condition="$vo[ 'time'] eq NULL ">
+                  <if condition="time() lt strtotime( '8:00 am') ">
+                    <span class="label label-default ">尚未签到</span>
+                    <else />
+                    <span class="label label-danger ">早起失败</span>
+                  </if>
+                  <else />
+                  <span class="label label-success "><php>echo date("H:i:s ",strtotime($vo['time']));</php></span>
+                </if>
+              </th>
             </tr>
           </foreach>
         </tbody>
@@ -73,8 +106,10 @@
   </div>
 </body>
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-<!-- <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script> -->
+<!-- <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js "></script> -->
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-<!-- <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
+<!-- <script src="__PUBLIC__/bootstrap-3.3.5-dist/js/bootstrap.min.js "></script> -->
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js "></script>
+<script src="__PUBLIC__/asset_rank/js/WxJS.js "></script>
 
 </html>
