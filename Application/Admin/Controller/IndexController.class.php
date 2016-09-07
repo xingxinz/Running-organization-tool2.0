@@ -2,7 +2,53 @@
 namespace Admin\Controller;
 use Think\Controller;
 class IndexController extends Controller {
+   
+
+    //首页
     public function index(){
-        $this->show('<style type="text/css">*{ padding: 0; margin: 0; } div{ padding: 4px 48px;} body{ background: #fff; font-family: "微软雅黑"; color: #333;font-size:24px} h1{ font-size: 100px; font-weight: normal; margin-bottom: 12px; } p{ line-height: 1.8em; font-size: 36px } a,a:hover{color:blue;}</style><div style="padding: 24px 48px;"> <h1>:)</h1><p>欢迎使用 <b>ThinkPHP</b>！</p><br/>版本 V{$Think.version}</div><script type="text/javascript" src="http://ad.topthink.com/Public/static/client.js"></script><thinkad id="ad_55e75dfae343f5a1"></thinkad><script type="text/javascript" src="http://tajs.qq.com/stats?sId=9347272" charset="UTF-8"></script>','utf-8');
+        $this->assign('username',session('username'));
+        $this->assign('id',session('id'));
+        $link=isset($_SESSION['id'])?U("Admin/Index"):U("PlatHome/Register/email");
+        $this->assign('link',$link);
+        $this->display();
+    }
+    
+    public function login(){
+        session(null);
+
+        $data['email']=I('post.email');              //获得用户名
+        $data['password']=md5(I('post.password'));  //获得密码
+        die();
+		var_dump($data);
+		
+		
+        $User=M('user');
+        
+        $list=$User->getbyCount($data['email']);    //读取用户数据
+
+        if($list){
+            if($list['password']==$data['password']){
+                session('user_id',$list['id']);
+                session('username',$list['username']);
+                session('group',$list['group']);
+                //session('point',$list['point']);
+
+                
+                // var_dump($_SESSION);
+                // die();
+               
+            }
+            else{
+                $this->error('密码错误');
+            }
+        }
+        else{
+            $this->error('用户名或密码错误');
+        }
+    }
+
+    public function logout(){
+        session(null);
+        $this->success('退出成功',__APP__.'/PlatHome');
     }
 }

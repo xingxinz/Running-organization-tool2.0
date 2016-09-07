@@ -1,0 +1,379 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>后台管理系统</title>
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+</head>
+<body class='contrast-dark fixed-header '>
+  <header>
+    <div class='navbar navbar-fixed-top'>
+      <div class='navbar-inner'>
+        <div class='container-fluid'>
+          <a class='brand' href='/main/index.php/Admin/Index/index'>
+            <i class='icon-home'></i>
+            <span class='hidden-phone'>首页</span>
+          </a>
+          <a class='toggle-nav btn pull-left' href='#'>
+            <i class='icon-reorder'></i>
+          </a>
+          <ul class='nav pull-right'>
+            <li class='dropdown dark user-menu'>
+              <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
+                <i class='icon-user'></i>
+                <span class='user-name hidden-phone'>$username</span>
+                <b class='caret'></b>
+              </a>
+              <ul class='dropdown-menu'>
+                <li>
+                  <a href='/main/index.php/Admin/User/user_profile'>
+                    <i class='icon-cog'></i>
+                    个人中心
+                  </a>
+                </li>
+                <li class='divider'></li>
+                <li>
+                  <a href='/main/index.php/Admin/Index/logout'>
+                    <i class='icon-signout'></i>
+                    登出
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <form accept-charset="UTF-8" action="/main/index.php/Admin/Index/search_results" class="navbar-search pull-right hidden-phone" method="get" />
+          <div style="margin:0;padding:0;display:inline">
+            <input name="utf8" type="hidden" value="&#x2713;" />
+          </div>
+          <button class="btn btn-link icon-search" name="button" type="submit"></button>
+          <input autocomplete="off" class="search-query span2" id="q_header" name="q" placeholder="搜索" type="text" value="" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </header><!--导航条-->
+  <div id='wrapper'>
+    <div id='main-nav-bg'></div>
+
+    <nav id='main-nav'>
+      <div class='navigation'>
+        <div class='search'>
+          <form accept-charset="UTF-8" action="search_results.html" method="get" />
+            <div style="margin:0;padding:0;display:inline">
+              <input name="utf8" type="hidden" value="&#x2713;" />
+            </div>
+            <div class='search-wrapper'>
+              <input autocomplete="off" class="search-query" id="q" name="q" placeholder="搜索" type="text" value="" />
+              <button class="btn btn-link icon-search" name="button" type="submit"></button>
+          </div>
+          </form>
+        </div><!--响应式搜索框-->
+        <ul class='nav nav-stacked'>
+          <li class='active'>
+             <a href='/main/index.php/Admin/Index/index'>
+               <i class='icon-home'></i>
+               <span>首页</span>
+             </a>
+          </li><!--响应式搜索框-->
+          <li>
+            <a class='dropdown-collapse ' href='#'>
+              <i class='icon-table'></i>
+              <span>地区管理</span>
+              <i class='icon-angle-down angle-down'></i>
+            </a>
+            <ul class='nav nav-stacked'>
+              <li>
+                <a href='/main/index.php/Admin/Area/area'>
+                  <i class='icon-caret-right'></i>
+                  <span>查看所有地区</span>
+                </a>
+              </li>
+              <li>
+                <a href='/main/index.php/Admin/Area/new_area'>
+                  <i class='icon-caret-right'></i>
+                  <span>新增地区</span>
+                </a>
+              </li>
+              <li>
+                <a href='/main/index.php/Admin/Area/area_devices'>
+                  <i class='icon-caret-right'></i>
+                  <span>管理地区的律师</span>
+                </a>
+              </li>
+            </ul>
+          </li><!--教室管理-->
+          <li>
+            <a class='dropdown-collapse ' href='#'>
+              <i class='icon-table'></i>
+              <span>律师管理</span>
+              <i class='icon-angle-down angle-down'></i>
+            </a>
+            <ul class='nav nav-stacked'>
+              <li>
+                <a href='/main/index.php/Admin/Room/room'>
+                  <i class='icon-caret-right'></i>
+                  <span>查看所有律师</span>
+                </a>
+              </li>
+              <li>
+                <a href='/main/index.php/Admin/Room/new_room'>
+                  <i class='icon-caret-right'></i>
+                  <span>新增律师</span>
+                </a>
+              </li>
+              <li>
+                <a href='/main/index.php/Admin/Room/room_devices'>
+                  <i class='icon-caret-right'></i>
+                  <span>管理律师设备</span>
+                </a>
+              </li>
+<!--               <li>
+                <a href='/main/index.php/Admin/Room/watchall'>
+                  <i class='icon-caret-right'></i>
+                  <span>律师状态管理</span>
+                </a>
+              </li> -->
+              <li>
+                <a href='/main/index.php/Admin/Room/room_img'>
+                  <i class='icon-caret-right'></i>
+                  <span>律师图片</span>
+                </a>
+              </li>
+            </ul>
+          </li><!--教室管理-->
+          <li>
+            <a class='dropdown-collapse ' href='#'>
+              <i class='icon-inbox'></i>
+              <span>设备管理</span>
+              <i class='icon-angle-down angle-down'></i>
+            </a>
+            <ul class='nav nav-stacked'>
+              <li>
+                <a href='/main/index.php/Admin/Device/device'>
+                  <i class='icon-caret-right'></i>
+                  <span>查看所有设备</span>
+                </a>
+              </li>
+              <li>
+                <a href='/main/index.php/Admin/Device/new_device'>
+                  <i class='icon-caret-right'></i>
+                  <span>新增设备</span>
+                </a>
+              </li>
+              <li>
+                <a href='/main/index.php/Admin/Device/device_img'>
+                  <i class='icon-caret-right'></i>
+                  <span>设备图片</span>
+                </a>
+              </li>
+            </ul>
+          </li><!--设备管理-->
+          <li>
+            <a class='dropdown-collapse ' href='#'>
+              <i class='icon-circle'></i>
+              <span>事务类型管理</span>
+              <i class='icon-angle-down angle-down'></i>
+            </a>
+            <ul class='nav nav-stacked'>
+              <li>
+                <a href='/main/index.php/Admin/Soft/soft'>
+                  <i class='icon-caret-right'></i>
+                  <span>查看所有事务类型</span>
+                </a>
+              </li>
+              <li>
+                <a href='/main/index.php/Admin/Soft/new_soft'>
+                  <i class='icon-caret-right'></i>
+                  <span>新增事务类型</span>
+                </a>
+              </li>
+              <li>
+                <a href='/main/index.php/Admin/Soft/soft_img'>
+                  <i class='icon-caret-right'></i>
+                  <span>事务类型图片</span>
+                </a>
+              </li>
+            </ul>
+          </li><!--软件管理-->
+       <li>
+            <a class='dropdown-collapse' href='#'>
+              <i class='icon-cog'></i>
+              <span>管理员管理</span>
+              <i class='icon-angle-down angle-down'></i>
+            </a>
+            <ul class='nav nav-stacked'>
+              <li>
+                <a href='/main/index.php/Admin/Manager/new_manager'>
+                  <i class='icon-caret-right'></i>
+                  <span>新增管理员</span>
+                </a>
+              </li>
+              <li>
+                <a href='/main/index.php/Admin/Manager/modify_manager'>
+                  <i class='icon-caret-right'></i>
+                  <span>管理管理员</span>
+                </a>
+              </li>
+            </ul>
+          </li><!--管理员管理-->
+          <li>
+            <a class='dropdown-collapse ' href='#'>
+              <i class='icon-user'></i>
+              <span>用户管理</span>
+              <i class='icon-angle-down angle-down'></i>
+            </a>
+            <ul class='nav nav-stacked'>
+              <li>
+                <a href='/main/index.php/Admin/User/user'>
+                  <i class='icon-caret-right'></i>
+                  <span>查看用户信息</span>
+                </a>
+              </li>
+<!--               <li>
+                <a href='/main/index.php/Admin/User/user_profile'>
+                  <i class='icon-caret-right'></i>
+                  <span>管理员操作记录</span>
+                </a>
+              </li> -->
+            </ul>
+          </li><!--人员管理-->
+          <li>
+            <a class='dropdown-collapse ' href='#'>
+              <i class='icon-user'></i>
+              <span>TAG管理</span>
+              <i class='icon-angle-down angle-down'></i>
+            </a>
+            <ul class='nav nav-stacked'>
+              <li>
+                <a href='/main/index.php/Admin/Tag/tag'>
+                  <i class='icon-caret-right'></i>
+                  <span>查看所有标签</span>
+                </a>
+              </li>
+              <li>
+                <a href='/main/index.php/Admin//Tag/new_tag'>
+                  <i class='icon-caret-right'></i>
+                  <span>增加标签</span>
+                </a>
+              </li>
+              <li>
+                <a href='/main/index.php/Admin/Room/watchall_tag'>
+                  <i class='icon-caret-right'></i>
+                  <span>设置格子tag</span>
+                </a>
+              </li>
+            </ul>
+          </li><!--标签管理-->
+          <li>
+            <a class='dropdown-collapse ' href='#'>
+              <i class='icon-edit-sign'></i>
+              <span>预约管理</span>
+              <i class='icon-angle-down angle-down'></i>
+            </a>
+            <ul class='nav nav-stacked'>
+              <li class=''>
+                <a href='/main/index.php/Admin/Orders/orders'>
+                  <i class='icon-caret-right'></i>
+                  <span>查看所有预约</span>
+                </a>
+                <a href='/main/index.php/Admin/Orders/rooms'>
+                  <i class='icon-caret-right'></i>
+                  <span>查看时段预约人数</span>
+                </a>
+              </li>
+            </ul>
+          </li><!--预约管理-->
+          <li>
+            <a class='dropdown-collapse toggle-nav' href='#'>
+              <i class='icon-edit-sign'></i>
+              <span>反馈管理</span>
+              <i class='icon-angle-down angle-down'></i>
+            </a>
+            <ul class='nav nav-stacked'>
+              <li class=''>
+                <a href='/main/index.php/Admin/Message/message'>
+                  <i class='icon-caret-right'></i>
+                  <span>查看所有反馈</span>
+                </a>
+              </li>
+            </ul>
+          </li><!--反馈管理-->
+          <li>
+            <a class='dropdown-collapse toggle-nav' href='#'>
+              <i class='icon-table'></i>
+              <span>帮助管理</span>
+              <i class='icon-angle-down angle-down'></i>
+            </a>
+            <ul class='nav nav-stacked'>
+              <li>
+                <a href='/main/index.php/Admin/Help/help_sign'>
+                  <i class='icon-caret-right'></i>
+                  <span>管理注册指南</span>
+                </a>
+              </li>
+              <li>
+                <a href='/main/index.php/Admin/Help/help_register'>
+                  <i class='icon-caret-right'></i>
+                  <span>管理预约指南</span>
+                </a>
+              </li>
+              <li>
+                <a href='/main/index.php/Admin/Help/help_question'>
+                  <i class='icon-caret-right'></i>
+                  <span>管理常见问题</span>
+                </a>
+              </li>
+              <li>
+                <a href='/main/index.php/Admin/Help/help_announcement'>
+                  <i class='icon-caret-right'></i>
+                  <span>管理系统公告</span>
+                </a>
+              </li>
+              <li>
+                <a href='/main/index.php/Admin/Help/new_help'>
+                  <i class='icon-caret-right'></i>
+                  <span>新增帮助</span>
+                </a>
+              </li>
+            </ul>
+          </li><!--帮助管理-->               
+          <li>
+            <a class='dropdown-collapse ' href='#'>
+              <i class='icon-time'></i>
+              <span>界面配置</span>
+              <i class='icon-angle-down angle-down'></i>
+            </a>
+            <ul class='nav nav-stacked'>
+              <li class=''>
+                <a href='/main/index.php/Admin/Configure/banner'>
+                  <i class='icon-caret-right'></i>
+                  <span>banner配置</span>
+                </a>
+              </li>
+              <li class=''>
+                <a href='/main/index.php/Admin/Configure/common'>
+                  <i class='icon-caret-right'></i>
+                  <span>公共配置</span>
+                </a>
+              </li>
+              <li class=''>
+                <a href='/main/index.php/Admin/Configure/basic'>
+                  <i class='icon-caret-right'></i>
+                  <span>基本配置</span>
+                </a>
+              </li>
+            </ul>
+          </li><!--配置-->
+        </ul>
+      </div>
+    </nav><!--侧边栏-->
+    
+    
+           
+  <!-- / jquery -->
+    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+</body>
+</html>
